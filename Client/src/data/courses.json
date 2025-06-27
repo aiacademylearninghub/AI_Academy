@@ -1,0 +1,73 @@
+{
+    "categories": [
+        {
+            "id": "ai-ml-basics",
+            "name": "AI/ML Basics",
+            "description": "Fundamental concepts of AI and Machine Learning",
+            "courses": [
+                {
+                    "id": 1,
+                    "title": "Introduction to Machine Learning",
+                    "description": "This is a sample course covering the basics of Machine Learning.",
+                    "youtubeUrl": "https://www.youtube.com/watch?v=yTHUoOTOLdE"
+                },
+                {
+                    "id": 2,
+                    "title": "Neural Networks Explained",
+                    "description": "A deep dive into neural networks and how they work.",
+                    "youtubeUrl": "https://www.youtube.com/watch?v=yTHUoOTOLdE"
+                }
+            ]
+        },
+        {
+            "id": "solution-builder",
+            "name": "Solution Builder",
+            "description": "Build custom AI solutions for real-world problems",
+            "courses": [
+                {
+                    "id": 3,
+                    "title": "Building Custom AI Solutions",
+                    "description": "Learn how to build custom AI solutions for real-world problems.",
+                    "youtubeUrl": "https://www.youtube.com/watch?v=yTHUoOTOLdE"
+                },
+                {
+                    "id": 4,
+                    "title": "Integrating AI into Business Workflows",
+                    "description": "Step-by-step guide to integrating AI into existing business processes.",
+                    "youtubeUrl": "https://www.youtube.com/watch?v=yTHUoOTOLdE"
+                }
+            ]
+        },
+        {
+            "id": "advanced-techniques",
+            "name": "Advanced Techniques",
+            "description": "Advanced AI and ML techniques for experienced practitioners",
+            "subcategories": [
+                {
+                    "id": "nlp",
+                    "name": "Natural Language Processing",
+                    "courses": [
+                        {
+                            "id": 5,
+                            "title": "Advanced NLP Techniques",
+                            "description": "Advanced techniques for natural language processing applications.",
+                            "youtubeUrl": "https://www.youtube.com/watch?v=yTHUoOTOLdE"
+                        }
+                    ]
+                },
+                {
+                    "id": "computer-vision",
+                    "name": "Computer Vision",
+                    "courses": [
+                        {
+                            "id": 6,
+                            "title": "Image Recognition with CNNs",
+                            "description": "Deep dive into Convolutional Neural Networks for image recognition.",
+                            "youtubeUrl": "https://www.youtube.com/watch?v=yTHUoOTOLdE"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
