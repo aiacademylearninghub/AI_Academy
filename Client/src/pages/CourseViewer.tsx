@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import coursesData from "../data/courses.json";
 import YouTubePlayer from "../components/YouTubePlayer";
 
@@ -30,12 +31,13 @@ interface CoursesData {
 
 export function CourseViewer() {
   const data = coursesData as unknown as CoursesData;
-  
+  const location = useLocation();
+
   // Use useMemo to prevent unnecessary re-renders and fix dependency issues
   const categories = React.useMemo(() => {
     return data.categories || [];
   }, [data.categories]);
-  
+
   // State management
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
@@ -44,39 +46,160 @@ export function CourseViewer() {
     Subcategory | undefined
   >(undefined);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const [isLoading, setIsLoading] = useState(true);// Initialize with the first available course when component mounts
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Initialize based on URL path when component mounts
   useEffect(() => {
-    // This function is only used during initialization, so it's safe to define it inside useEffect
-    const findFirstAvailableCourse = () => {
-      if (categories.length === 0) {
-        return null;
-      }
-      
-      // Check main categories with direct courses
-      for (const category of categories) {
-        if (category.courses && category.courses.length > 0) {
-          return { category, course: category.courses[0] };
-        }
-        // Check subcategories
-        if (category.subcategories) {
-          for (const subcategory of category.subcategories) {
-            if (subcategory.courses && subcategory.courses.length > 0) {
-              return { category, subcategory, course: subcategory.courses[0] };
+    const path = location.pathname;
+
+    // Parse path to determine category and subcategory
+    let categoryToSelect: Category | null = null;
+    let subcategoryToSelect: Subcategory | undefined = undefined;
+    let courseToSelect: Course | null = null;
+
+    // Check if path contains information about which category/subcategory to show
+    if (path.includes("/ai-hub/")) {
+      // Handle AI Hub and its subcategories
+      const aiCategory = categories.find((c) => c.id === "ai-hub");
+
+      if (aiCategory) {
+        categoryToSelect = aiCategory;
+
+        if (path.includes("/ai-hub/basics")) {
+          // AI ML Basics
+          if (aiCategory.courses && aiCategory.courses.length > 0) {
+            courseToSelect = aiCategory.courses[0];
+          }
+        } else if (path.includes("/ai-hub/agents")) {
+          // Agents subcategory
+          const agentsSubcategory = aiCategory.subcategories?.find(
+            (s) => s.id === "agents"
+          );
+          if (agentsSubcategory) {
+            subcategoryToSelect = agentsSubcategory;
+            if (
+              agentsSubcategory.courses &&
+              agentsSubcategory.courses.length > 0
+            ) {
+              courseToSelect = agentsSubcategory.courses[0];
+            }
+          }
+        } else if (path.includes("/ai-hub/fine-tuning")) {
+          // Fine-tuning subcategory
+          const finetuningSubcategory = aiCategory.subcategories?.find(
+            (s) => s.id === "fine-tuning"
+          );
+          if (finetuningSubcategory) {
+            subcategoryToSelect = finetuningSubcategory;
+            if (
+              finetuningSubcategory.courses &&
+              finetuningSubcategory.courses.length > 0
+            ) {
+              courseToSelect = finetuningSubcategory.courses[0];
+            }
+          }
+        } else if (path.includes("/ai-hub/evaluation")) {
+          // Evaluation subcategory
+          const evalSubcategory = aiCategory.subcategories?.find(
+            (s) => s.id === "evaluation"
+          );
+          if (evalSubcategory) {
+            subcategoryToSelect = evalSubcategory;
+            if (evalSubcategory.courses && evalSubcategory.courses.length > 0) {
+              courseToSelect = evalSubcategory.courses[0];
+            }
+          }
+        } else if (path.includes("/ai-hub/tracking")) {
+          // Tracking subcategory
+          const trackingSubcategory = aiCategory.subcategories?.find(
+            (s) => s.id === "tracking"
+          );
+          if (trackingSubcategory) {
+            subcategoryToSelect = trackingSubcategory;
+            if (
+              trackingSubcategory.courses &&
+              trackingSubcategory.courses.length > 0
+            ) {
+              courseToSelect = trackingSubcategory.courses[0];
+            }
+          }
+        } else if (path.includes("/ai-hub/rag/")) {
+          // RAG subcategory with further subdivisions
+          const ragSubcategory = aiCategory.subcategories?.find(
+            (s) => s.id === "nlp"
+          ); // Using nlp as RAG subcategory for now
+
+          if (ragSubcategory) {
+            subcategoryToSelect = ragSubcategory;
+            if (ragSubcategory.courses && ragSubcategory.courses.length > 0) {
+              courseToSelect = ragSubcategory.courses[0];
             }
           }
         }
       }
-      return null;
-    };
-    
-    const initialData = findFirstAvailableCourse();
-    if (initialData) {
-      setSelectedCategory(initialData.category);
-      setSelectedSubcategory(initialData.subcategory);
-      setSelectedCourse(initialData.course);
+    } else if (path.includes("/ai-hub/azure")) {
+      // Azure Hub
+      const azureCategory = categories.find((c) => c.id === "azure-hub");
+      if (azureCategory) {
+        categoryToSelect = azureCategory;
+        if (azureCategory.courses && azureCategory.courses.length > 0) {
+          courseToSelect = azureCategory.courses[0];
+        }
+      }
+    } else if (path.includes("/ai-hub/devops")) {
+      // DevOps Hub
+      const devopsCategory = categories.find((c) => c.id === "devops-hub");
+      if (devopsCategory) {
+        categoryToSelect = devopsCategory;
+        if (devopsCategory.courses && devopsCategory.courses.length > 0) {
+          courseToSelect = devopsCategory.courses[0];
+        }
+      }
     }
+
+    // If we couldn't determine from URL, just select the first available course
+    if (!courseToSelect) {
+      // This function is only used during initialization, so it's safe to define it inside useEffect
+      const findFirstAvailableCourse = () => {
+        if (categories.length === 0) {
+          return null;
+        }
+
+        // Check main categories with direct courses
+        for (const category of categories) {
+          if (category.courses && category.courses.length > 0) {
+            return { category, course: category.courses[0] };
+          }
+          // Check subcategories
+          if (category.subcategories) {
+            for (const subcategory of category.subcategories) {
+              if (subcategory.courses && subcategory.courses.length > 0) {
+                return {
+                  category,
+                  subcategory,
+                  course: subcategory.courses[0],
+                };
+              }
+            }
+          }
+        }
+        return null;
+      };
+
+      const initialData = findFirstAvailableCourse();
+      if (initialData) {
+        categoryToSelect = initialData.category;
+        subcategoryToSelect = initialData.subcategory;
+        courseToSelect = initialData.course;
+      }
+    }
+
+    // Set the selected values
+    setSelectedCategory(categoryToSelect);
+    setSelectedSubcategory(subcategoryToSelect);
+    setSelectedCourse(courseToSelect);
     setIsLoading(false);
-  }, [categories]); // Now we properly include categories as a dependency
+  }, [categories, location.pathname]); // Now we properly include categories as a dependency
 
   const handleSelectCourse = (
     category: Category,

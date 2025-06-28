@@ -13,18 +13,28 @@ const getYouTubeId = (url: string): string | null => {
 
   // Handle different URL formats
   try {
+    // Directly return ID if the URL is already in embed format
+    if (url.includes("youtube.com/embed/")) {
+      const parts = url.split("youtube.com/embed/");
+      if (parts.length > 1) {
+        const id = parts[1].split("?")[0];
+        return id.length === 11 ? id : null;
+      }
+    }
+
     // Standard youtube.com URLs
-    if (url.includes('youtube.com') || url.includes('youtu.be')) {
-      const regExp = /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    if (url.includes("youtube.com") || url.includes("youtu.be")) {
+      const regExp =
+        /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
       const match = url.match(regExp);
       return match && match[1].length === 11 ? match[1] : null;
-    } 
-    
+    }
+
     // Plain video IDs (just the 11 character code)
     if (url.trim().length === 11) {
       return url.trim();
     }
-    
+
     return null;
   } catch (error) {
     console.error("Error extracting YouTube ID:", error);
