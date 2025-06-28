@@ -2,41 +2,20 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Brain,
-  BookOpen,
-  Users,
   ArrowRight,
-  UserPlus,
   Mail,
   Lock,
-  ChevronRight,
   Check,
   AlertCircle,
   Eye,
   EyeOff,
+  Database,
+  Cpu,
+  BookMarked,
+  ExternalLink,
 } from "lucide-react";
 import { Card } from "../components/ui/Card";
 import { useAuth } from "../contexts/useAuth";
-
-const features = [
-  {
-    name: "Comprehensive Curriculum",
-    description:
-      "Access courses covering AI/ML fundamentals, RAG systems, agents, fine-tuning, evaluation, and more.",
-    icon: BookOpen,
-  },
-  {
-    name: "Expert Instructors",
-    description:
-      "Learn from industry experts with years of experience in AI development and implementation.",
-    icon: Users,
-  },
-  {
-    name: "Hands-on Projects",
-    description:
-      "Apply your knowledge through hands-on projects that simulate real-world AI challenges.",
-    icon: Brain,
-  },
-];
 
 // Auth Form Component with toggle between login and signup
 interface AuthFormProps {
@@ -416,6 +395,48 @@ function AuthForm({ authMode, setAuthMode }: AuthFormProps) {
   );
 }
 
+// Platform Card Component
+function PlatformCard({ platform }: { platform: (typeof platforms)[0] }) {
+  const Icon = platform.icon;
+
+  const handleClick = () => {
+    window.open(platform.url, "_blank", "noopener,noreferrer");
+  };
+
+  return (
+    <div
+      onClick={handleClick}
+      className="cursor-pointer group h-full transition-transform duration-300 hover:scale-105"
+    >
+      <Card className="h-full flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl bg-white dark:bg-gray-800">
+        <div className="px-6 py-6 flex-1 flex flex-col">
+          <div
+            className={`w-12 h-12 rounded-lg ${platform.iconBgClass} flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110`}
+          >
+            <Icon className="h-6 w-6 text-purple-600 dark:text-purple-400 transition-transform duration-300 group-hover:rotate-12" />
+          </div>
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+            {platform.name}
+          </h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 flex-grow">
+            {platform.description}
+          </p>
+        </div>
+        <div
+          className={`py-4 px-6 bg-gradient-to-r ${platform.bgClass} group-hover:bg-opacity-90 transition-all duration-300`}
+        >
+          <div className="flex justify-between items-center">
+            <span className="text-xs font-medium text-white/90">
+              {platform.tagline}
+            </span>
+            <ExternalLink className="h-4 w-4 text-white/80 transition-transform duration-300 group-hover:translate-x-1" />
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
 // Animated background component
 function AnimatedBackground() {
   return (
@@ -435,26 +456,323 @@ function AnimatedBackground() {
   );
 }
 
-// Feature Card Component with animations
-function FeatureCard({ feature }: { feature: (typeof features)[0] }) {
-  const Icon = feature.icon;
+// Platform data for connected applications
+const platforms = [
+  {
+    name: "AI Knowledge Base",
+    description:
+      "Document and share AI learnings, best practices, and reusable assets to build GenAI solutions efficiently.",
+    icon: Database,
+    url: "https://ai-knowledge-base.onrender.com",
+    tagline: "Explore Learnings & Best Practices",
+    bgClass: "from-blue-600 to-cyan-600",
+    iconBgClass: "bg-blue-100 dark:bg-blue-900/30",
+    detailedDescription: `The AI Knowledge Base serves as a comprehensive repository of AI-related information, allowing teams to document and share valuable learnings. 
+    It offers a structured approach to organizing AI best practices, techniques, and reusable assets.
+    
+    Key features include:
+    • Searchable documentation repository
+    • Categorized AI patterns and solutions
+    • Version-controlled knowledge articles
+    • Integration with popular AI tools and frameworks
+    • Collaborative editing and feedback system`,
+    videoUrl: "https://youtu.be/yTHUoOTOLdE?si=usM2-DCb8hguSJhM", // Placeholder video URL
+  },
+  {
+    name: "AI Solution Builder",
+    description:
+      "Design AI application architectures with guided workflows and generate tailored architecture diagrams.",
+    icon: Cpu,
+    url: "https://solutionbuilder.onrender.com",
+    tagline: "Design AI Architectures",
+    bgClass: "from-purple-600 to-indigo-600",
+    iconBgClass: "bg-purple-100 dark:bg-purple-900/30",
+    detailedDescription: `The AI Solution Builder enables users to design sophisticated AI application architectures through intuitive guided workflows. 
+    This platform streamlines the process of creating tailored architecture diagrams for AI systems.
+    
+    Key features include:
+    • Drag-and-drop component library for AI architectures
+    • Intelligent recommendations based on use case requirements
+    • Automated validation of architecture designs
+    • Export to multiple formats (PNG, SVG, PDF)
+    • Integration with deployment tools and CI/CD pipelines`,
+    videoUrl: "https://youtu.be/yTHUoOTOLdE?si=usM2-DCb8hguSJhM", // Placeholder video URL
+  },
+  {
+    name: "AI Notebook",
+    description:
+      "Collaborative discussion and Q&A platform for uploading documents and saving notes anchored in the Knowledge Base.",
+    icon: BookMarked,
+    url: "https://ai-notebook.onrender.com/",
+    tagline: "Collaborative Notes & Q&A",
+    bgClass: "from-emerald-600 to-teal-600",
+    iconBgClass: "bg-emerald-100 dark:bg-emerald-900/30",
+    detailedDescription: `The AI Notebook provides a collaborative environment for discussions and Q&A related to AI projects. 
+    It allows seamless document uploading and integration with the Knowledge Base for contextual reference.
+    
+    Key features include:
+    • Real-time collaborative editing
+    • AI-powered document analysis and annotation
+    • Integrated Q&A with context-aware responses
+    • Version history and change tracking
+    • Support for code snippets with syntax highlighting and execution`,
+    videoUrl: "https://youtu.be/yTHUoOTOLdE?si=usM2-DCb8hguSJhM", // Placeholder video URL
+  },
+];
+
+// Team member data
+const teamMembers = [
+  {
+    name: "Sudeep Aryan ",
+    role: "Senior AI Engineer",
+    description: "",
+    imageUrl: "",
+  },
+  {
+    name: "Vignesh ",
+    role: "Senior AI Engineer",
+    description: "",
+    imageUrl: "",
+  },
+  {
+    name: "Vijay",
+    role: "Frontend Developer",
+    description: "",
+    imageUrl: "",
+  },
+  {
+    name: "Suvardhan DIleep",
+    role: "AI Ethics Specialist",
+    description: "",
+    imageUrl: "",
+  },
+];
+
+// Platform Detail Section Component
+function PlatformDetail({
+  platform,
+  index,
+}: {
+  platform: (typeof platforms)[0];
+  index: number;
+}) {
+  const isEven = index % 2 === 0;
 
   return (
-    <div className="group relative z-10 h-full">
-      <Card className="h-full px-6 py-8 flex flex-col transition-all duration-500 transform group-hover:-translate-y-2 group-hover:shadow-xl bg-white dark:bg-gray-800">
-        <div className="flex-1 flex flex-col">
-          <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-5 transition-all duration-500 group-hover:scale-110 group-hover:bg-purple-200 dark:group-hover:bg-purple-800/40">
-            <Icon className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+    <div id={`platform-${index}`} className="py-16 scroll-mt-16">
+      <div
+        className={`flex flex-col ${
+          isEven ? "lg:flex-row" : "lg:flex-row-reverse"
+        } gap-8 items-center`}
+      >
+        <div className="w-full lg:w-1/2 space-y-6">
+          <div className="flex items-center space-x-3">
+            <div
+              className={`w-10 h-10 rounded-lg ${platform.iconBgClass} flex items-center justify-center`}
+            >
+              <platform.icon className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+              {platform.name}
+            </h3>
           </div>
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
-            {feature.name}
-          </h3>
-          <p className="text-base text-gray-600 dark:text-gray-400 flex-grow">
-            {feature.description}
-          </p>
+          <div className="prose prose-purple dark:prose-invert max-w-none">
+            {platform.detailedDescription.split("\n").map((paragraph, i) => (
+              <p key={i} className="text-gray-600 dark:text-gray-300">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          <div>
+            <a
+              href={platform.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700"
+            >
+              Explore Platform
+              <ExternalLink className="ml-2 h-4 w-4" />
+            </a>
+          </div>
         </div>
-        <div className="mt-6 h-0.5 w-0 bg-purple-500 transition-all duration-500 group-hover:w-full"></div>
-      </Card>
+        <div className="w-full lg:w-1/2 bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg aspect-video">
+          <iframe
+            className="w-full h-full"
+            src={platform.videoUrl}
+            title={`${platform.name} Demo Video`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// About AI Academy Section Component
+function AboutSection() {
+  return (
+    <div id="about" className="py-16 scroll-mt-16">
+      <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+        About AI Academy
+      </h2>
+      <div className="flex flex-col lg:flex-row gap-8">
+        <div className="w-full lg:w-3/5 space-y-6">
+          <p className="text-lg text-gray-600 dark:text-gray-300">
+            AI Academy is a comprehensive educational platform designed to
+            empower individuals and organizations with the knowledge and skills
+            needed to harness the power of artificial intelligence.
+          </p>
+          <p className="text-gray-600 dark:text-gray-300">
+            Founded in 2022, our mission is to democratize AI education and make
+            cutting-edge techniques accessible to everyone, regardless of their
+            technical background. Our curriculum is designed by industry experts
+            and constantly updated to reflect the rapidly evolving AI landscape.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+            <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+              <h4 className="font-semibold text-purple-700 dark:text-purple-300 mb-2">
+                Our Vision
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                To create a world where AI is understood, accessible, and
+                responsibly deployed to solve humanity's greatest challenges.
+              </p>
+            </div>
+            <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+              <h4 className="font-semibold text-purple-700 dark:text-purple-300 mb-2">
+                Our Approach
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Hands-on learning with real-world applications, guided by AI
+                practitioners with industry experience.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="w-full lg:w-2/5">
+          <div className="bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg p-6 h-full flex flex-col justify-between">
+            <div>
+              <h3 className="text-xl font-bold text-white mb-4">
+                Why Choose AI Academy?
+              </h3>
+              <ul className="space-y-3">
+                {[
+                  "Industry-relevant curriculum updated quarterly",
+                  "Learn from AI practitioners with real-world experience",
+                  "Build a portfolio of practical AI projects",
+                  "Flexible learning paths tailored to your goals",
+                  "Join a community of AI enthusiasts and professionals",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start">
+                    <Check className="h-5 w-5 text-green-300 mr-2 flex-shrink-0 mt-0.5" />
+                    <span className="text-white/90">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Team Section Component
+function TeamSection() {
+  return (
+    <div id="team" className="py-16 scroll-mt-16">
+      <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+        Our Team
+      </h2>
+      <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+        Meet the experts behind AI Academy's curriculum and platform development
+      </p>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {teamMembers.map((member, index) => (
+          <div
+            key={index}
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+          >
+            <div className="h-48 overflow-hidden">
+              <img
+                src={member.imageUrl}
+                alt={member.name}
+                className="w-full h-full object-cover object-center transform hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-5">
+              <h3 className="font-bold text-gray-900 dark:text-white text-lg">
+                {member.name}
+              </h3>
+              <div className="text-purple-600 dark:text-purple-400 text-sm font-medium mb-2">
+                {member.role}
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 text-sm">
+                {member.description}
+              </p>
+              <div className="mt-4 flex space-x-3">
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-md group"
+                  aria-label="LinkedIn"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="text-blue-600 dark:text-blue-400 group-hover:text-blue-700"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" />
+                  </svg>
+                </a>
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center hover:bg-sky-100 dark:hover:bg-sky-900/30 hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-md group"
+                  aria-label="Twitter/X"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="text-sky-500 dark:text-sky-400 group-hover:text-sky-600"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                  </svg>
+                </a>
+                <a
+                  href="https://github.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center hover:bg-purple-100 dark:hover:bg-purple-900/30 hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-md group"
+                  aria-label="GitHub"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="text-gray-800 dark:text-white group-hover:text-black dark:group-hover:text-gray-200"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -471,7 +789,13 @@ export function WelcomePage() {
       setAnimateContent(true);
     }, 100);
 
-    return () => clearTimeout(timer);
+    // Add smooth scrolling behavior
+    document.documentElement.style.scrollBehavior = "smooth";
+
+    return () => {
+      clearTimeout(timer);
+      document.documentElement.style.scrollBehavior = "auto";
+    };
   }, []);
 
   // Show dashboard button for authenticated users
@@ -483,245 +807,283 @@ export function WelcomePage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
       <AnimatedBackground />
 
-      <div className="relative z-10 min-h-screen flex flex-col lg:flex-row">
-        {/* Content Section (Left Side) */}
-        <div className="w-full lg:w-3/5 flex flex-col justify-center px-4 sm:px-6 lg:px-8 py-12 lg:py-6">
-          <div className="max-w-2xl mx-auto lg:mx-0 lg:max-w-none lg:pr-12">
+      <div className="relative z-10 min-h-screen">
+        <div className="flex flex-col lg:flex-row">
+          {/* Content Section (Left Side) */}
+          <div className="w-full lg:w-3/5 flex flex-col justify-center px-4 sm:px-6 lg:px-8 py-12 lg:py-6">
+            <div className="max-w-2xl mx-auto lg:mx-0 lg:max-w-none lg:pr-12">
+              {/* Header */}
+              <div
+                className={`transition-all duration-1000 transform ${
+                  animateContent
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-10 opacity-0"
+                }`}
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center">
+                    <Brain className="h-8 w-8 sm:h-10 sm:w-10 text-purple-600 mr-2 sm:mr-3" />
+                    <span className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                      AI Academy
+                    </span>
+                  </div>
+                  <div className="flex space-x-2 sm:space-x-4">
+                    <a
+                      href="#platforms"
+                      className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                    >
+                      AI Platforms
+                    </a>
+                    <a
+                      href="#about"
+                      className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                    >
+                      About
+                    </a>
+                    <a
+                      href="#team"
+                      className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                    >
+                      Team
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Connected Platforms Section - Teaser Cards */}
+              <div id="platforms" className="mb-16 scroll-mt-16">
+                <div
+                  className={`transition-all duration-1000 transform ${
+                    animateContent
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-10 opacity-0"
+                  }`}
+                >
+                  <div className="mb-6">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                      AI Academy Ecosystem
+                    </h2>
+                    <p className="text-lg text-gray-600 dark:text-gray-300">
+                      Explore our integrated AI platforms designed to accelerate
+                      your learning and development
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                  {platforms.map((platform, index) => (
+                    <div
+                      key={platform.name}
+                      className={`transition-all duration-1000 transform ${
+                        animateContent
+                          ? "translate-y-0 opacity-100"
+                          : "translate-y-10 opacity-0"
+                      }`}
+                      style={{ transitionDelay: `${200 + index * 200}ms` }}
+                    >
+                      <PlatformCard platform={platform} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Login Form Section (Right Side) */}
+          <div
+            id="signup"
+            className="w-full lg:w-2/5 bg-gray-100 dark:bg-gray-800/50 backdrop-blur-lg flex items-center justify-center p-6 lg:p-12 sticky top-0 lg:h-screen"
+          >
             <div
-              className={`transition-all duration-1000 transform ${
+              className={`w-full transition-all duration-1000 transform ${
                 animateContent
                   ? "translate-y-0 opacity-100"
                   : "translate-y-10 opacity-0"
               }`}
             >
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center">
-                  <Brain className="h-8 w-8 sm:h-10 sm:w-10 text-purple-600 mr-2 sm:mr-3" />
-                  <span className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+              {!isAuthenticated ? (
+                <AuthForm authMode={authMode} setAuthMode={setAuthMode} />
+              ) : (
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 w-full max-w-md mx-auto transform transition-all duration-500 hover:shadow-2xl">
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center mb-6 animate-pulse-slow">
+                      <Brain className="h-10 w-10 text-white" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                      Welcome Back!
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">
+                      You're already signed in to AI Academy. Continue your
+                      learning journey from where you left off!
+                    </p>
+
+                    {/* Show platforms after login too */}
+                    <div className="mb-6 w-full">
+                      <div className="text-sm font-medium text-gray-900 dark:text-white mb-2">
+                        Access AI Academy Platforms
+                      </div>
+                      <div className="grid grid-cols-1 gap-3">
+                        {platforms.map((platform) => (
+                          <a
+                            key={platform.name}
+                            href={platform.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`flex items-center p-3 rounded-lg bg-gradient-to-r ${platform.bgClass} hover:opacity-90 transition-all`}
+                          >
+                            <div
+                              className={`w-8 h-8 rounded-md ${platform.iconBgClass} flex items-center justify-center mr-3`}
+                            >
+                              <platform.icon className="h-4 w-4 text-white" />
+                            </div>
+                            <div className="flex-1">
+                              <div className="text-sm font-medium text-white">
+                                {platform.name}
+                              </div>
+                              <div className="text-xs text-white/80">
+                                {platform.tagline}
+                              </div>
+                            </div>
+                            <ExternalLink className="h-4 w-4 text-white/80" />
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="mb-6 w-full bg-gray-100 dark:bg-gray-700 rounded-lg p-4 flex items-center">
+                      <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mr-4">
+                        <Check className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                      </div>
+                      <div className="text-left">
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">
+                          Last Course
+                        </p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          AI Fundamentals - 60% Complete
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={goToDashboard}
+                      className="w-full px-8 py-3 rounded-lg font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 shadow-lg transform transition-all duration-300 hover:-translate-y-1 flex items-center justify-center"
+                    >
+                      Continue Learning
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Detailed platform sections */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+          <div className="border-b border-gray-200 dark:border-gray-700 mb-8">
+            <div className="text-center max-w-3xl mx-auto py-8">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                Discover Our AI Platform Suite
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300">
+                Each platform in our ecosystem is designed to enhance different
+                aspects of AI learning and development. Explore detailed
+                information about each platform below.
+              </p>
+            </div>
+          </div>
+
+          {platforms.map((platform, index) => (
+            <PlatformDetail
+              key={platform.name}
+              platform={platform}
+              index={index}
+            />
+          ))}
+
+          <AboutSection />
+          <TeamSection />
+        </div>
+
+        <footer className="bg-gray-100 dark:bg-gray-800 py-12 border-t border-gray-200 dark:border-gray-700">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row justify-between">
+              <div className="mb-8 md:mb-0">
+                <div className="flex items-center mb-4">
+                  <Brain className="h-8 w-8 text-purple-600 mr-2" />
+                  <span className="text-xl font-bold text-gray-900 dark:text-white">
                     AI Academy
                   </span>
                 </div>
-                <div className="flex space-x-2 sm:space-x-4">
-                  <a
-                    href="#features"
-                    className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  >
-                    Features
-                  </a>
-                  <a
-                    href="#"
-                    className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  >
-                    Courses
-                  </a>
-                </div>
-              </div>{" "}
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight">
-                Master{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 animate-gradient bg-300%">
-                  Artificial Intelligence
-                </span>{" "}
-                with Expert Guidance
-              </h1>
-              <p className="mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
-                Your journey into the world of AI starts here. Learn from
-                industry experts, build practical projects, and advance your
-                career with our comprehensive curriculum.
-              </p>
-              <div className="mt-10 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                {isAuthenticated ? (
-                  <button
-                    onClick={goToDashboard}
-                    className="px-8 py-4 rounded-lg font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex items-center justify-center"
-                  >
-                    <Brain className="mr-2 h-5 w-5" />
-                    Go to Dashboard
-                  </button>
-                ) : (
-                  <a
-                    href="#signup"
-                    className="px-8 py-4 rounded-lg font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex items-center justify-center"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      document
-                        .getElementById("signup")
-                        ?.scrollIntoView({ behavior: "smooth" });
-                      // Set signup mode with a small delay to let the scroll finish
-                      setTimeout(() => {
-                        setAuthMode("signup");
-                      }, 500);
-                    }}
-                  >
-                    <UserPlus className="mr-2 h-5 w-5" />
-                    Start for free
-                  </a>
-                )}
-                <a
-                  href="#features"
-                  className="px-8 py-4 rounded-lg font-medium border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:border-purple-600 dark:hover:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 transform transition-all duration-300 hover:-translate-y-1 flex items-center justify-center"
-                >
-                  Learn more
-                  <ChevronRight className="ml-2 h-5 w-5" />
-                </a>
+                <p className="text-gray-600 dark:text-gray-400 max-w-md">
+                  Empowering the next generation of AI innovators with
+                  cutting-edge education and tools.
+                </p>
               </div>
-              <div className="mt-12">
-                <div className="flex items-center">
-                  <div className="flex -space-x-2">
-                    {[1, 2, 3].map((i) => (
-                      <img
-                        key={i}
-                        src={`https://randomuser.me/api/portraits/men/${
-                          i + 20
-                        }.jpg`}
-                        alt={`User ${i}`}
-                        className="w-10 h-10 rounded-full border-2 border-white dark:border-gray-900"
-                      />
+
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+                    Platform
+                  </h3>
+                  <ul className="space-y-3">
+                    {platforms.map((platform) => (
+                      <li key={platform.name}>
+                        <a
+                          href={platform.url}
+                          className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400"
+                        >
+                          {platform.name}
+                        </a>
+                      </li>
                     ))}
-                  </div>
-                  <span className="ml-4 text-sm font-medium text-gray-600 dark:text-gray-300">
-                    Joined by 5,000+ professionals & learners
-                  </span>
+                  </ul>
                 </div>
-                <div className="mt-6 flex flex-wrap gap-2">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
-                    <Check className="mr-1 h-3 w-3" /> Industry-recognized
-                  </span>
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
-                    <Check className="mr-1 h-3 w-3" /> Self-paced learning
-                  </span>
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400">
-                    <Check className="mr-1 h-3 w-3" /> Certificate of completion
-                  </span>
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+                    Company
+                  </h3>
+                  <ul className="space-y-3">
+                    {["About", "Team", "Careers", "Contact"].map((item) => (
+                      <li key={item}>
+                        <a
+                          href={`#${item.toLowerCase()}`}
+                          className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400"
+                        >
+                          {item}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+                    Resources
+                  </h3>
+                  <ul className="space-y-3">
+                    {["Documentation", "Tutorials", "Blog", "Community"].map(
+                      (item) => (
+                        <li key={item}>
+                          <a
+                            href="#"
+                            className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400"
+                          >
+                            {item}
+                          </a>
+                        </li>
+                      )
+                    )}
+                  </ul>
                 </div>
               </div>
             </div>
 
-            {/* Features Section */}
-            <div
-              id="features"
-              className="mt-16 sm:mt-24 pt-6 sm:pt-0 scroll-mt-16"
-            >
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
-                Why Choose AI Academy?
-              </h2>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-                {features.map((feature, index) => (
-                  <div
-                    key={feature.name}
-                    className={`transition-all duration-1000 transform ${
-                      animateContent
-                        ? "translate-y-0 opacity-100"
-                        : "translate-y-10 opacity-0"
-                    }`}
-                    style={{ transitionDelay: `${200 + index * 200}ms` }}
-                  >
-                    <FeatureCard feature={feature} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* CTA Section */}
-            <div className="mt-16 sm:mt-24 mb-12 lg:mb-0 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-6 sm:p-8 md:p-10 shadow-xl transform transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl animate-gradient bg-300%">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-3 sm:mb-4">
-                Ready to level up your AI skills?
-              </h2>
-              <p className="text-indigo-100 mb-6 sm:mb-8 text-sm sm:text-base">
-                Join thousands of professionals who are already learning with us
-                and transform your career.
+            <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+              <p className="text-center text-gray-500 dark:text-gray-400">
+                © {new Date().getFullYear()} AI Academy. All rights reserved.
               </p>
-              <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                {isAuthenticated ? (
-                  <button
-                    onClick={goToDashboard}
-                    className="px-8 py-3 rounded-lg font-medium text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 shadow-md transform transition-all duration-300 flex items-center justify-center"
-                  >
-                    Go to Dashboard
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </button>
-                ) : (
-                  <a
-                    href="#signup"
-                    className="px-8 py-3 rounded-lg font-medium text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 shadow-md transform transition-all duration-300 flex items-center justify-center"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      document
-                        .getElementById("signup")
-                        ?.scrollIntoView({ behavior: "smooth" });
-                      // Set signup mode with a small delay to let the scroll finish
-                      setTimeout(() => {
-                        setAuthMode("signup");
-                      }, 500);
-                    }}
-                  >
-                    Get started
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </a>
-                )}
-                <a
-                  href="#"
-                  className="px-8 py-3 rounded-lg font-medium text-white border-2 border-white/30 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 transform transition-all duration-300 flex items-center justify-center"
-                >
-                  Browse courses
-                </a>
-              </div>
             </div>
           </div>
-        </div>
-
-        {/* Login Form Section (Right Side) */}
-        <div
-          id="signup"
-          className="w-full lg:w-2/5 bg-gray-100 dark:bg-gray-800/50 backdrop-blur-lg flex items-center justify-center p-6 lg:p-12 sticky top-0 lg:h-screen"
-        >
-          <div
-            className={`w-full transition-all duration-1000 transform ${
-              animateContent
-                ? "translate-y-0 opacity-100"
-                : "translate-y-10 opacity-0"
-            }`}
-          >
-            {!isAuthenticated ? (
-              <AuthForm authMode={authMode} setAuthMode={setAuthMode} />
-            ) : (
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 w-full max-w-md mx-auto transform transition-all duration-500 hover:shadow-2xl">
-                <div className="flex flex-col items-center justify-center text-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center mb-6 animate-pulse-slow">
-                    <Brain className="h-10 w-10 text-white" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-                    Welcome Back!
-                  </h2>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6">
-                    You're already signed in to AI Academy. Continue your
-                    learning journey from where you left off!
-                  </p>
-                  <div className="mb-6 w-full bg-gray-100 dark:bg-gray-700 rounded-lg p-4 flex items-center">
-                    <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mr-4">
-                      <Check className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-                    </div>
-                    <div className="text-left">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        Last Course
-                      </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        AI Fundamentals - 60% Complete
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={goToDashboard}
-                    className="w-full px-8 py-3 rounded-lg font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 shadow-lg transform transition-all duration-300 hover:-translate-y-1 flex items-center justify-center"
-                  >
-                    Continue Learning
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        </footer>
       </div>
     </div>
   );
