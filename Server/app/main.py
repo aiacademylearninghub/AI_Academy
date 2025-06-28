@@ -26,6 +26,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/status", tags=["health"])
 def check_health():
     """Check the health of the application."""
@@ -34,7 +35,14 @@ def check_health():
 
 # Serving - static files
 static_files_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
+# Mount for backward compatibility
 app.mount("/static", StaticFiles(directory=static_files_path), name="static")
+# Mount for new client app with base='/'
+app.mount(
+    "/assets",
+    StaticFiles(directory=os.path.join(static_files_path, "assets")),
+    name="assets",
+)
 templates = Jinja2Templates(directory=static_files_path)
 
 

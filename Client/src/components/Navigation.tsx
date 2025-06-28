@@ -1,18 +1,28 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Brain, BookOpen, Users, Menu, X, Search } from 'lucide-react';
-import { ThemeToggle } from './ThemeToggle';
-import { UserProfile } from './UserProfile';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Brain, BookOpen, Users, Menu, X, Search } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
+import { UserProfile } from "./UserProfile";
+import { useAuth } from "../contexts/useAuth";
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: Brain },
-  { name: 'Documentation', href: '/docs', icon: BookOpen },
-  { name: 'Authors', href: '/authors', icon: Users },
+  { name: "Dashboard", href: "/static", icon: Brain, requiresAuth: true },
+  {
+    name: "Courses",
+    href: "/ai-hub/basics",
+    icon: BookOpen,
+    requiresAuth: true,
+  },
+  { name: "Profile", href: "/profile", icon: Users, requiresAuth: true },
 ];
 
 export function Navigation() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
+
+  const { isAuthenticated } = useAuth();
+
+  // Authentication check happens in App.tsx with protected routes
 
   return (
     <nav className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
@@ -20,18 +30,21 @@ export function Navigation() {
         <div className="flex items-center justify-between h-16">
           {/* Mobile Logo */}
           <div className="md:hidden flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
+            <Link
+              to={isAuthenticated ? "/static" : "/static/welcome"}
+              className="flex items-center space-x-2"
+            >
               <Brain className="w-8 h-8 text-purple-500" />
-              <span className="text-xl font-bold text-gray-900 dark:text-white">AI Academy</span>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">
+                AI Academy
+              </span>
             </Link>
           </div>
-          
-            
 
           {/* Search and Actions */}
           <div className="flex items-center space-x-4 ml-auto">
             {/* Search - Desktop */}
-            <div className="hidden md:flex items-center relative">                         
+            <div className="hidden md:flex items-center relative">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Search className="h-5 w-5 text-gray-400" />
@@ -44,7 +57,6 @@ export function Navigation() {
               </div>
             </div>
 
-            
             {/* Search - Mobile */}
             <button
               className="md:hidden p-2 text-gray-400 hover:text-purple-500"
@@ -54,16 +66,16 @@ export function Navigation() {
             </button>
 
             <div>
-                <a
-                  href="https://ai-knowledge-base.onrender.com/index.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition duration-150 ease-in-out"
-                >
-                  AI Knowledge Base
-                </a>
-              </div>   
-              
+              <a
+                href="https://ai-knowledge-base.onrender.com/index.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition duration-150 ease-in-out"
+              >
+                AI Knowledge Base
+              </a>
+            </div>
+
             {/* Theme Toggle */}
             <ThemeToggle />
 
