@@ -1,0 +1,1335 @@
+/* WelcomePage.css */
+/* Animation Styles */
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+/* Additional Animations from reference */
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0px) rotate(360deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes slideInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Welcome Page Layout */
+.welcome-page {
+  min-height: 100vh;
+  background-image: linear-gradient(to bottom right, #1e293b, #4c1d95, #1e293b);
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  position: relative; /* Establish stacking context */
+}
+
+.welcome-content {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  padding-top: 5rem; /* Adjusted for fixed navbar */
+}
+
+/* Animated Background */
+.animated-background {
+  position: fixed; /* Stay fixed during scrolling */
+  inset: 0;
+  overflow: hidden;
+  z-index: 0; /* Behind content */
+  min-height: 100vh;
+  width: 100%;
+  pointer-events: none; /* Allow interaction with content beneath */
+}
+
+.background-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.light-gradient {
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(168, 85, 247, 0.1),
+    rgba(99, 102, 241, 0.1)
+  );
+}
+
+.dark-gradient {
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(88, 28, 135, 1),
+    rgba(30, 58, 138, 1)
+  );
+}
+
+.light-mode .welcome-page {
+  background-image: linear-gradient(to bottom right, #f0f9ff, #e0f2fe, #f0f9ff);
+}
+
+/* Neural Network Lines */
+.neural-lines {
+  animation: pulse 4s ease-in-out infinite;
+  opacity: 0.2;
+}
+
+.light-mode .neural-lines {
+  opacity: 0.15; /* Slightly higher opacity for better visibility */
+}
+
+/* Override SVG line stroke color in light mode */
+.light-mode .neural-lines line {
+  stroke: url(#lineGradientLight) !important;
+}
+
+/* Floating Geometric Shapes */
+.floating-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.shape {
+  position: absolute;
+  background: linear-gradient(
+    45deg,
+    rgba(139, 92, 246, 0.3),
+    rgba(6, 182, 212, 0.3)
+  );
+  border-radius: 50%;
+  animation: float 20s infinite linear;
+}
+
+.shape-1 {
+  width: 100px;
+  height: 100px;
+  top: 15%;
+  left: 15%;
+  animation-delay: 0s;
+}
+
+.shape-2 {
+  width: 60px;
+  height: 60px;
+  top: 65%;
+  right: 25%;
+  animation-delay: -5s;
+}
+
+.shape-3 {
+  width: 80px;
+  height: 80px;
+  bottom: 25%;
+  left: 35%;
+  animation-delay: -10s;
+}
+
+.shape-4 {
+  width: 120px;
+  height: 120px;
+  top: 35%;
+  right: 15%;
+  animation-delay: -15s;
+}
+
+/* Blobs */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  mix-blend-mode: multiply;
+  filter: blur(3xl);
+  opacity: 0.2;
+}
+
+.blob-desktop-1 {
+  top: -10rem;
+  right: -10rem;
+  width: 20rem;
+  height: 20rem;
+  background-color: #d8b4fe; /* purple-300 */
+}
+
+.blob-desktop-2 {
+  bottom: -10rem;
+  left: -10rem;
+  width: 24rem;
+  height: 24rem;
+  background-color: #a5b4fc; /* indigo-300 */
+}
+
+.blob-desktop-3 {
+  top: 15rem;
+  right: 15rem;
+  width: 18rem;
+  height: 18rem;
+  background-color: #f9a8d4; /* pink-300 */
+}
+
+.dark .blob-desktop-1 {
+  background-color: #581c87; /* purple-900 */
+}
+
+.dark .blob-desktop-2 {
+  background-color: #312e81; /* indigo-900 */
+}
+
+.dark .blob-desktop-3 {
+  background-color: #831843; /* pink-900 */
+}
+
+/* Mobile blobs */
+.blob-mobile-1 {
+  top: -5rem;
+  right: -5rem;
+  width: 14rem;
+  height: 14rem;
+  background-color: #d8b4fe; /* purple-300 */
+}
+
+.blob-mobile-2 {
+  bottom: -5rem;
+  left: -5rem;
+  width: 16rem;
+  height: 16rem;
+  background-color: #a5b4fc; /* indigo-300 */
+}
+
+.blob-mobile-3 {
+  top: 10rem;
+  right: 5rem;
+  width: 12rem;
+  height: 12rem;
+  background-color: #f9a8d4; /* pink-300 */
+}
+
+.dark .blob-mobile-1 {
+  background-color: #581c87; /* purple-900 */
+}
+
+.dark .blob-mobile-2 {
+  background-color: #312e81; /* indigo-900 */
+}
+
+.dark .blob-mobile-3 {
+  background-color: #831843; /* pink-900 */
+}
+
+/* Particles */
+.particles-container {
+  position: fixed; /* Match fixed positioning of animated background */
+  inset: 0;
+  pointer-events: none;
+  z-index: 1; /* Above background but below content */
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(
+    45deg,
+    rgba(139, 92, 246, 0.6),
+    rgba(6, 182, 212, 0.6)
+  );
+  animation: float 20s infinite linear;
+}
+
+/* Layout Sections */
+.welcome-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .welcome-layout {
+    flex-direction: row;
+  }
+}
+
+.content-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 1rem; /* Increased padding */
+}
+
+@media (min-width: 640px) {
+  .content-section {
+    padding: 4rem 2.5rem; /* More padding on larger screens */
+  }
+}
+
+@media (min-width: 1024px) {
+  .content-section {
+    width: 100%;
+    padding: 1rem 1rem; /* Even more padding on desktop */
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+.content-container {
+  max-width: 32rem;
+  margin: 1rem auto; /* Vertical margin */
+}
+
+@media (min-width: 1024px) {
+  .content-container {
+    margin: 1rem auto; /* Center content */
+    max-width: 80rem; /* 1024px */
+    padding: 0 2rem;
+  }
+}
+
+/* Auth Modal form styles */
+.auth-modal label,
+.auth-modal p,
+.auth-modal h2,
+.auth-modal h3,
+.auth-modal span:not(.bg-gradient-to-r) {
+  color: white !important;
+}
+
+.auth-modal input,
+.auth-modal textarea,
+.auth-modal select {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.auth-modal input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.light-mode .auth-modal label,
+.light-mode .auth-modal p,
+.light-mode .auth-modal h2,
+.light-mode .auth-modal h3,
+.light-mode .auth-modal span:not(.bg-gradient-to-r) {
+  color: #1e293b !important;
+}
+
+.light-mode .auth-modal input,
+.light-mode .auth-modal textarea,
+.light-mode .auth-modal select {
+  color: #1e293b !important;
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.light-mode .auth-modal input::placeholder {
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.light-mode .auth-modal .bg-white\/10,
+.light-mode .auth-modal .dark\:bg-gray-800\/30 {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Animation Classes */
+
+/* Animation Classes */
+.fade-in-up {
+  transition: all 1000ms;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.fade-out-down {
+  transform: translateY(2.5rem);
+  opacity: 0;
+}
+
+/* Platform Cards */
+.platform-card {
+  cursor: pointer;
+  height: 100%;
+  transition: transform 300ms;
+  margin: 0.75rem 0; /* Add vertical spacing between cards */
+  padding: 1rem; /* Inner padding */
+}
+
+.platform-card:hover {
+  transform: scale(1.05);
+}
+
+.platform-icon-container {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  transition: transform 300ms;
+}
+
+.platform-card:hover .platform-icon-container {
+  transform: scale(1.1);
+}
+
+.platform-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  transition: transform 300ms;
+}
+
+.platform-card:hover .platform-icon {
+  transform: rotate(12deg);
+}
+
+/* Password strength indicator */
+.strength-meter {
+  height: 0.5rem;
+  width: 100%;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.strength-bar {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 300ms ease-out;
+}
+
+/* Section styles */
+.section-container {
+  padding: 4rem 1.5rem; /* Increased horizontal padding */
+  margin: 2rem 1rem; /* Added margin around sections */
+  scroll-margin-top: 4rem;
+  border-radius: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .section-container {
+    padding: 4rem 2.5rem; /* More padding on larger screens */
+    margin: 2.5rem 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-container {
+    padding: 1rem 1rem; /* Even more padding on desktop */
+    margin: 1rem 1rem;
+  }
+}
+
+/* Footer styles with improved spacing */
+.footer {
+  background-color: rgba(243, 244, 246, 0.8);
+  backdrop-filter: blur(8px);
+  padding: 4rem 2rem 3rem; /* Top, horizontal, bottom padding */
+  margin-top: 3rem; /* Space above footer */
+  border-top: 1px solid rgba(229, 231, 235, 0.5);
+}
+
+/* Footer content spacing */
+.footer .container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.footer .grid {
+  gap: 2rem; /* Add gap between footer grid items */
+}
+
+/* Ensure last section before footer has bottom margin */
+.section-container:last-of-type {
+  margin-bottom: 3rem;
+}
+
+/* Animated Logo */
+.animated-logo {
+  display: inline-flex;
+  position: relative;
+}
+
+.logo-bg {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background-image: linear-gradient(to right, #8b5cf6, #06b6d4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.logo-glow {
+  position: absolute;
+  inset: -0.5rem;
+  background-image: linear-gradient(to right, #8b5cf6, #06b6d4);
+  border-radius: 1rem;
+  filter: blur(8px);
+  opacity: 0.3;
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.logo-inner {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: white;
+  border-radius: 50%;
+}
+
+/* Enhanced Card Styles with better spacing */
+.enhanced-card {
+  position: relative;
+  transition: all 0.5s ease;
+  animation: slideInUp 0.8s ease-out forwards;
+  opacity: 0;
+  transform: translateY(30px);
+  margin: 0.5rem 0; /* Reduced vertical margin for smaller screens */
+  cursor: pointer;
+}
+
+/* Responsive card adjustments */
+@media (max-width: 640px) {
+  .enhanced-card {
+    margin: 0.5rem 0;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .enhanced-card {
+    margin: 0.75rem 0;
+  }
+}
+
+@media (min-width: 1025px) {
+  .enhanced-card {
+    margin: 1rem 0;
+  }
+}
+
+.enhanced-card-border {
+  position: absolute;
+  inset: -0.25rem; /* Slightly increased to avoid border clipping */
+  background-image: linear-gradient(to right, #8b5cf6, #06b6d4);
+  border-radius: 0.75rem;
+  filter: blur(4px);
+  opacity: 0.3;
+  transition: opacity 0.5s ease;
+}
+
+.enhanced-card-content {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1.25rem; /* Default padding for mobile */
+  height: 100%;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive content padding */
+@media (min-width: 640px) {
+  .enhanced-card-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .enhanced-card-content {
+    padding: 1.75rem;
+  }
+}
+
+.enhanced-card:hover .enhanced-card-content {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px);
+}
+
+.enhanced-card-icon {
+  width: 3rem; /* Default size for mobile */
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+/* Responsive icon sizes */
+@media (min-width: 640px) {
+  .enhanced-card-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: 1.15rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .enhanced-card-icon {
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+.enhanced-card:hover .enhanced-card-icon {
+  transform: scale(1.1) rotate(6deg);
+}
+
+/* Light mode text enhancements */
+.light-mode .welcome-page {
+  color-scheme: light;
+}
+
+.light-mode .section-container h2,
+.light-mode .section-container h3,
+.light-mode .section-container p {
+  color: #1e293b; /* slate-800 for good contrast */
+}
+
+.light-mode .section-container .text-gray-300,
+.light-mode .section-container .text-gray-400,
+.light-mode .section-container .text-gray-600,
+.light-mode .prose .text-gray-300,
+.light-mode .welcome-page .text-gray-300,
+.light-mode .welcome-page .text-gray-600 {
+  color: #334155 !important; /* slate-700 for better readability */
+}
+
+/* Fix specifically for detailed sections */
+.light-mode .section-container .text-white,
+.light-mode .section-container .text-white\/90,
+.light-mode .section-container .text-gray-900 {
+  color: #1e293b !important;
+}
+
+/* Enhanced card with glassmorphism for light mode */
+.light-mode .enhanced-card {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(209, 213, 219, 0.5);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.light-mode .enhanced-card-content {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.light-mode .enhanced-card:hover {
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Fix text colors in platform cards for light mode */
+.light-mode .enhanced-card .text-gray-900 {
+  color: #111827;
+}
+
+.light-mode .enhanced-card .text-gray-600 {
+  color: #4b5563;
+}
+
+.light-mode .enhanced-card .text-gray-300 {
+  color: #6b7280;
+}
+
+/* Enhanced card text color fixes for light mode */
+.light-mode .enhanced-card h3,
+.light-mode .enhanced-card .text-gray-900 {
+  color: #111827 !important; /* Dark gray for headings */
+}
+
+.light-mode .enhanced-card p,
+.light-mode .enhanced-card .text-sm,
+.light-mode .enhanced-card .text-gray-600,
+.light-mode .enhanced-card .text-gray-300 {
+  color: #4b5563 !important; /* Medium gray for body text */
+}
+
+.light-mode .enhanced-card .text-purple-600 {
+  color: #7c3aed !important; /* Keep purple accent */
+}
+
+.light-mode .enhanced-card .text-white {
+  color: #fff !important; /* For elements that should remain white (like icon backgrounds) */
+}
+
+/* For the background elements */
+.light-mode .shape {
+  background: linear-gradient(
+    45deg,
+    rgba(139, 92, 246, 0.2),
+    rgba(6, 182, 212, 0.2)
+  );
+}
+
+/* Footer light mode */
+.light-mode .footer {
+  background-color: rgba(243, 244, 246, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+/* Platform details text in light mode */
+.light-mode .prose.prose-purple p {
+  color: #1e293b !important;
+}
+
+/* Add a semi-transparent background to platform detail sections for better text visibility */
+.light-mode .section-container {
+  position: relative;
+}
+
+.light-mode .section-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(6px);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  z-index: -1;
+}
+
+/* Section containers styling for light mode */
+.light-mode .section-container {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 0.75rem;
+}
+
+/* Update colors for section headings and text in light mode */
+.light-mode .section-container h2 {
+  background-image: linear-gradient(to right, #7c3aed, #3b82f6);
+  background-clip: text;
+  color: transparent;
+}
+
+.light-mode .section-container p {
+  color: #4b5563;
+}
+
+/* Smooth transition for theme changes */
+.welcome-page,
+.welcome-page *,
+.welcome-page div,
+.welcome-page section,
+.welcome-page button,
+.welcome-page a,
+.welcome-page input,
+.welcome-page label {
+  transition-property: background-color, border-color, color, fill, stroke,
+    opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Improve contrast for CTA buttons in both modes */
+.light-mode .bg-gradient-to-r.from-purple-600.to-cyan-600 {
+  box-shadow: 0 10px 15px -3px rgba(124, 58, 237, 0.2),
+    0 4px 6px -2px rgba(6, 182, 212, 0.1);
+}
+
+.dark-mode .bg-gradient-to-r.from-purple-600.to-cyan-600,
+.dark .bg-gradient-to-r.from-purple-600.to-cyan-600 {
+  box-shadow: 0 10px 15px -3px rgba(124, 58, 237, 0.3),
+    0 4px 6px -2px rgba(6, 182, 212, 0.2);
+}
+
+/* Authenticated user view styling */
+.light-mode .platform-link {
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(209, 213, 219, 0.5);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.light-mode .platform-link:hover {
+  background-color: rgba(255, 255, 255, 0.85);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode .platform-link,
+.dark .platform-link {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dark-mode .platform-link:hover,
+.dark .platform-link:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2),
+    0 4px 6px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* Status indicator styling */
+.light-mode .bg-gray-100 {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.light-mode .text-gray-900 {
+  color: #1e293b !important;
+}
+
+.light-mode .text-gray-600 {
+  color: #475569 !important;
+}
+
+/* Status indicator styling with glass effect */
+.light-mode .status-indicator {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.dark-mode .status-indicator,
+.dark .status-indicator {
+  background-color: rgba(50, 50, 50, 0.4) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Continue Learning button enhancements */
+.light-mode .welcome-page .continue-learning-btn {
+  background-image: linear-gradient(to right, #7c3aed, #3b82f6);
+  box-shadow: 0 10px 15px -3px rgba(124, 58, 237, 0.3),
+    0 4px 6px -2px rgba(59, 130, 246, 0.2);
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
+.light-mode .welcome-page .continue-learning-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 20px -3px rgba(124, 58, 237, 0.4),
+    0 8px 8px -2px rgba(59, 130, 246, 0.3);
+}
+
+/* Last course display for authenticated users in light mode */
+.light-mode .welcome-page .last-course {
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.light-mode .welcome-page .last-course-title {
+  color: #1e293b !important;
+}
+
+.light-mode .welcome-page .last-course-progress {
+  color: #4b5563 !important;
+}
+
+/* Ensure all bg-white elements have proper styling in light mode */
+.light-mode .welcome-page .bg-white {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Make sure animation continues for full page in both modes */
+.welcome-content,
+.section-container,
+.footer {
+  position: relative;
+  z-index: 10;
+}
+
+/* Authenticated user view enhancements for light mode */
+.light-mode .welcome-page .bg-gray-100 {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Status indicator for authenticated users */
+.light-mode .status-indicator {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Continue Learning button styling */
+.light-mode .welcome-page .continue-learning-btn {
+  background-image: linear-gradient(to right, #7c3aed, #3b82f6);
+  box-shadow: 0 10px 15px -3px rgba(124, 58, 237, 0.3),
+    0 4px 6px -2px rgba(59, 130, 246, 0.2);
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
+.light-mode .welcome-page .continue-learning-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 20px -3px rgba(124, 58, 237, 0.4),
+    0 8px 8px -2px rgba(59, 130, 246, 0.3);
+}
+
+/* Fix for authenticated user platform cards in light mode */
+.light-mode .welcome-page .platform-card {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 0.75rem;
+}
+
+.light-mode .welcome-page .platform-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.light-mode .welcome-page .platform-card h3 {
+  color: #111827;
+}
+
+.light-mode .welcome-page .platform-card p {
+  color: #4b5563;
+}
+
+/* Fix for special components that might need specific light mode styling */
+.light-mode .welcome-page .icon-container {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Last course component styling for authenticated users */
+.light-mode .welcome-page .bg-gray-100,
+.light-mode .welcome-page .dark\:bg-gray-800 {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 0.75rem;
+}
+
+/* Status indicator fix for light mode */
+.light-mode .welcome-page .bg-purple-100,
+.light-mode .welcome-page .dark\:bg-purple-900\/20 {
+  background-color: rgba(243, 232, 255, 0.8) !important;
+  border: 1px solid rgba(147, 51, 234, 0.1);
+}
+
+/* Fix for the continue learning button */
+.light-mode .welcome-page .bg-gradient-to-r.from-purple-600.to-cyan-600 {
+  background-image: linear-gradient(to right, #7c3aed, #0ea5e9) !important;
+  color: white !important;
+  box-shadow: 0 10px 15px -3px rgba(124, 58, 237, 0.3),
+    0 4px 6px -2px rgba(14, 165, 233, 0.2);
+}
+
+/* Authenticated user view spacing improvements */
+.light-mode .welcome-page .platform-link,
+.dark-mode .platform-link,
+.dark .platform-link {
+  margin: 0.75rem 0; /* Add vertical margin */
+  padding: 1.25rem; /* Increased padding */
+  border-radius: 0.75rem;
+}
+
+/* Last course component improved spacing */
+.light-mode .welcome-page .last-course,
+.dark-mode .last-course,
+.dark .last-course {
+  margin: 1.5rem 0; /* Add vertical margin */
+  padding: 1.5rem; /* Increase padding */
+  border-radius: 0.75rem;
+}
+
+/* Welcome back container spacing */
+.welcome-page .welcome-back-container {
+  padding: 2rem; /* Add padding to welcome back section */
+  margin-bottom: 2rem; /* Add space below welcome message */
+}
+
+/* Section title spacing */
+.section-container h2 {
+  margin-bottom: 2rem; /* Add space below section titles */
+}
+
+.section-container h3 {
+  margin-bottom: 1rem; /* Add space below sub-headings */
+}
+
+/* Text block spacing */
+.section-container p {
+  margin-bottom: 1.5rem; /* Space below paragraphs */
+}
+
+.section-container p:last-child {
+  margin-bottom: 0; /* Remove bottom margin from last paragraph */
+}
+
+/* Fix platform cards in authenticated view */
+.welcome-page .platform-card {
+  padding: 1.5rem;
+  margin: 0.75rem 0.25rem;
+  border-radius: 0.75rem;
+}
+
+/* Access platform header spacing */
+.access-platforms-header {
+  margin-bottom: 1.5rem;
+  margin-top: 2rem;
+}
+.navbar-menu {
+  display: flex;
+}
+/* Navbar styling */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 50;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.navbar.scrolled {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: rgba(15, 23, 42, 0.95);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.light-mode .navbar {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.light-mode .navbar.scrolled {
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Navbar brand */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Navbar links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-right: 30px;
+}
+
+.nav-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.2s ease;
+  position: relative;
+  padding: 0.25rem 0;
+}
+
+.light-mode .nav-link {
+  color: rgba(30, 41, 59, 0.8);
+}
+
+.nav-link:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.light-mode .nav-link:hover {
+  color: rgba(30, 41, 59, 1);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background: linear-gradient(to right, #8b5cf6, #06b6d4);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Navbar actions */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.auth-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(
+    to right,
+    rgba(139, 92, 246, 0.8),
+    rgba(6, 182, 212, 0.8)
+  );
+  color: white;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.auth-button:hover {
+  background: linear-gradient(
+    to right,
+    rgba(139, 92, 246, 1),
+    rgba(6, 182, 212, 1)
+  );
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.light-mode .theme-toggle {
+  background-color: rgba(30, 41, 59, 0.1);
+  color: #1e293b;
+}
+
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.light-mode .theme-toggle:hover {
+  background-color: rgba(30, 41, 59, 0.2);
+}
+
+/* Modal animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Auth modal styling */
+.auth-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.auth-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.auth-modal {
+  background-color: rgba(30, 41, 59, 0.95);
+  border-radius: 0.75rem;
+  max-width: 28rem;
+  width: 90%;
+  position: relative;
+  transform: translateY(20px) scale(0.95);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.auth-modal-overlay.active .auth-modal {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.light-mode .auth-modal {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.auth-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.light-mode .auth-modal-close {
+  color: rgba(30, 41, 59, 0.6);
+}
+
+.auth-modal-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 1);
+  transform: rotate(90deg);
+}
+
+.light-mode .auth-modal-close:hover {
+  background-color: rgba(30, 41, 59, 0.1);
+  color: rgba(30, 41, 59, 1);
+}
+
+/* Form animation styles */
+.auth-modal h2 {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.auth-modal form {
+  animation: slideUp 0.6s ease forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.auth-modal .flex.items-center.justify-between.mb-6 {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+/* Mobile styling for auth modal */
+@media (max-width: 640px) {
+  .auth-modal {
+    width: 95%;
+    max-width: none;
+  }
+}
