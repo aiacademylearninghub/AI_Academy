@@ -13,9 +13,13 @@ import {
   Cpu,
   BookMarked,
   ExternalLink,
+  Sun,
+  Moon,
 } from "lucide-react";
-import { Card } from "../components/ui/Card";
+import { useTheme } from "../contexts/ThemeContext";
+// Card component removed as we're using custom card styling
 import { useAuth } from "../contexts/useAuth";
+import "./WelcomePage.css";
 
 // Auth Form Component with toggle between login and signup
 interface AuthFormProps {
@@ -79,17 +83,16 @@ function AuthForm({ authMode, setAuthMode }: AuthFormProps) {
     setFormError("");
 
     try {
-      // Use demo credentials for dummy login
-      // In a real app this would be more secure
-      if (email === "user@example.com" && password === "password123") {
-        await login(email, password);
-        navigate("/static"); // Navigate to dashboard
-      } else {
-        // For demonstration - show error but with helpful hint
-        setFormError("Invalid credentials. Try user@example.com / password123");
-      }
-    } catch {
-      setFormError("Login error. Try user@example.com / password123");
+      // Pass the credentials to the login function
+      await login(email, password);
+      navigate("/static"); // Navigate to dashboard
+    } catch (error) {
+      // Show a more helpful error message
+      setFormError(
+        error instanceof Error
+          ? error.message
+          : "Invalid credentials. Try user@example.com / password123"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -124,14 +127,14 @@ function AuthForm({ authMode, setAuthMode }: AuthFormProps) {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 w-full max-w-md mx-auto transform transition-all duration-500 hover:shadow-2xl">
+    <div className="relative bg-white/10 dark:bg-gray-800/30 backdrop-blur-xl rounded-lg shadow-xl p-8 w-full max-w-md mx-auto transform transition-all duration-500 hover:shadow-2xl border border-white/20 dark:border-gray-700/30">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h2 className="text-2xl font-bold text-white">
             {isLogin ? "Sign In" : "Create Account"}
           </h2>
           {isLogin && (
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-sm text-gray-300 mt-1">
               Demo: user@example.com / password123
             </p>
           )}
@@ -237,9 +240,9 @@ function AuthForm({ authMode, setAuthMode }: AuthFormProps) {
           {/* Password strength indicator - only for signup */}
           {!isLogin && password && (
             <div className="mt-2">
-              <div className="h-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+              <div className="strength-meter bg-gray-200 dark:bg-gray-700">
                 <div
-                  className={`h-full ${strengthClass} rounded-full`}
+                  className={`strength-bar ${strengthClass}`}
                   style={{ width: `${(strength.score / 6) * 100}%` }}
                 ></div>
               </div>
@@ -406,52 +409,156 @@ function PlatformCard({ platform }: { platform: (typeof platforms)[0] }) {
   return (
     <div
       onClick={handleClick}
-      className="cursor-pointer group h-full transition-transform duration-300 hover:scale-105"
+      className="enhanced-card group h-full"
+      style={{ animationDelay: `${platforms.indexOf(platform) * 100}ms` }}
     >
-      <Card className="h-full flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl bg-white dark:bg-gray-800">
-        <div className="px-6 py-6 flex-1 flex flex-col">
-          <div
-            className={`w-12 h-12 rounded-lg ${platform.iconBgClass} flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110`}
-          >
-            <Icon className="h-6 w-6 text-purple-600 dark:text-purple-400 transition-transform duration-300 group-hover:rotate-12" />
-          </div>
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-            {platform.name}
-          </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 flex-grow">
-            {platform.description}
-          </p>
-        </div>
+      <div className="enhanced-card-border"></div>
+      <div className="enhanced-card-content flex flex-col h-full">
         <div
-          className={`py-4 px-6 bg-gradient-to-r ${platform.bgClass} group-hover:bg-opacity-90 transition-all duration-300`}
+          className={`enhanced-card-icon bg-gradient-to-r ${platform.bgClass} sm:w-12 sm:h-12 md:w-16 md:h-16`}
         >
-          <div className="flex justify-between items-center">
-            <span className="text-xs font-medium text-white/90">
-              {platform.tagline}
-            </span>
-            <ExternalLink className="h-4 w-4 text-white/80 transition-transform duration-300 group-hover:translate-x-1" />
+          <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+        </div>
+        <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-purple-300 group-hover:to-cyan-300 group-hover:bg-clip-text group-hover:text-transparent transition-colors">
+          {platform.name}
+        </h3>
+        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 flex-grow mb-4 line-clamp-3">
+          {platform.description}
+        </p>
+        <div className="flex justify-between items-center mt-auto pt-2">
+          <span className="text-xs font-medium text-purple-600 dark:text-purple-400">
+            {platform.tagline}
+          </span>
+          <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-r from-purple-600 to-cyan-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 text-white/90" />
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }
 
 // Animated background component
+interface Particle {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  speed: number;
+  opacity: number;
+}
+
 function AnimatedBackground() {
+  // For animated particles
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    // Generate particles for background animation
+    const newParticles = Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 3 + 1,
+      speed: Math.random() * 2 + 1,
+      opacity: Math.random() * 0.5 + 0.3,
+    }));
+    setParticles(newParticles);
+
+    // Animate particles
+    const animateParticles = () => {
+      setParticles((prev) =>
+        prev.map((particle) => ({
+          ...particle,
+          y: particle.y > 100 ? -5 : particle.y + particle.speed * 0.1,
+          x: particle.x + Math.sin(Date.now() * 0.001 + particle.id) * 0.1,
+        }))
+      );
+    };
+
+    const interval = setInterval(animateParticles, 50);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="absolute inset-0 overflow-hidden z-0">
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-purple-500/10 to-indigo-500/10 dark:from-purple-900/20 dark:to-indigo-900/20"></div>
+    <div className="animated-background">
+      <div className="background-gradient light-gradient dark:dark-gradient"></div>
 
-      {/* Desktop blobs */}
-      <div className="hidden md:block absolute -top-40 -right-40 w-80 h-80 bg-purple-300 dark:bg-purple-900 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-      <div className="hidden md:block absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-300 dark:bg-indigo-900 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-      <div className="hidden md:block absolute top-60 right-60 w-72 h-72 bg-pink-300 dark:bg-pink-900 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+      {/* Floating Geometric Shapes */}
+      <div className="floating-shapes">
+        <div className="shape shape-1"></div>
+        <div className="shape shape-2"></div>
+        <div className="shape shape-3"></div>
+        <div className="shape shape-4"></div>
+      </div>
 
-      {/* Mobile optimized blobs - smaller and repositioned */}
-      <div className="md:hidden absolute -top-20 -right-20 w-56 h-56 bg-purple-300 dark:bg-purple-900 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-      <div className="md:hidden absolute -bottom-20 -left-20 w-64 h-64 bg-indigo-300 dark:bg-indigo-900 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-      <div className="md:hidden absolute top-40 right-20 w-48 h-48 bg-pink-300 dark:bg-pink-900 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+      {/* Neural Network Lines */}
+      <svg className="absolute inset-0 w-full h-full opacity-20">
+        <defs>
+          <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.3" />
+          </linearGradient>
+          <linearGradient
+            id="lineGradientLight"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
+            <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#0891b2" stopOpacity="0.7" />
+          </linearGradient>
+        </defs>
+        <g className="neural-lines">
+          <line
+            x1="10%"
+            y1="20%"
+            x2="90%"
+            y2="80%"
+            stroke="url(#lineGradient)"
+            strokeWidth="1"
+          />
+          <line
+            x1="20%"
+            y1="80%"
+            x2="80%"
+            y2="20%"
+            stroke="url(#lineGradient)"
+            strokeWidth="1"
+          />
+          <line
+            x1="5%"
+            y1="50%"
+            x2="95%"
+            y2="60%"
+            stroke="url(#lineGradient)"
+            strokeWidth="1"
+          />
+        </g>
+      </svg>
+
+      {/* Animated Particles */}
+      {particles.map((particle) => (
+        <div
+          key={particle.id}
+          className="absolute rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 animate-pulse"
+          style={{
+            left: `${particle.x}%`,
+            top: `${particle.y}%`,
+            width: `${particle.size}px`,
+            height: `${particle.size}px`,
+            opacity: particle.opacity,
+          }}
+        />
+      ))}
+
+      {/* Legacy blobs for compatibility */}
+      <div className="hidden md:block blob blob-desktop-1 animate-blob"></div>
+      <div className="hidden md:block blob blob-desktop-2 animate-blob animation-delay-2000"></div>
+      <div className="hidden md:block blob blob-desktop-3 animate-blob animation-delay-4000"></div>
+      <div className="md:hidden blob blob-mobile-1 animate-blob"></div>
+      <div className="md:hidden blob blob-mobile-2 animate-blob animation-delay-2000"></div>
+      <div className="md:hidden blob blob-mobile-3 animate-blob animation-delay-4000"></div>
     </div>
   );
 }
@@ -459,33 +566,32 @@ function AnimatedBackground() {
 // Platform data for connected applications
 const platforms = [
   {
-    name: "AI Knowledge Base",
+    name: "AI Academy",
     description:
-      "Document and share AI learnings, best practices, and reusable assets to build GenAI solutions efficiently.",
-    icon: Database,
-    url: "https://ai-knowledge-base.onrender.com",
-    tagline: "Explore Learnings & Best Practices",
-    bgClass: "from-blue-600 to-cyan-600",
+      "A online platform offering interactive courses, real-world projects, and mentorship to empower developers in harnessing AI's potential.",
+    icon: BookMarked,
+    url: "https://ai-academy.onrender.com",
+    tagline: "Learn AI Development",
+    bgClass: "from-blue-500 via-purple-500 to-cyan-500",
     iconBgClass: "bg-blue-100 dark:bg-blue-900/30",
-    detailedDescription: `The AI Knowledge Base serves as a comprehensive repository of AI-related information, allowing teams to document and share valuable learnings. 
-    It offers a structured approach to organizing AI best practices, techniques, and reusable assets.
+    detailedDescription: `AI Academy is a comprehensive learning platform designed to help developers master artificial intelligence concepts and implementation.
     
     Key features include:
-    • Searchable documentation repository
-    • Categorized AI patterns and solutions
-    • Version-controlled knowledge articles
-    • Integration with popular AI tools and frameworks
-    • Collaborative editing and feedback system`,
+    • Interactive tutorials and coding exercises
+    • Real-world projects with industry applications
+    • Personalized learning paths based on skill level
+    • Expert mentorship from AI practitioners
+    • Certification programs recognized by industry leaders`,
     videoUrl: "https://youtu.be/yTHUoOTOLdE?si=usM2-DCb8hguSJhM", // Placeholder video URL
   },
   {
     name: "AI Solution Builder",
     description:
-      "Design AI application architectures with guided workflows and generate tailored architecture diagrams.",
+      "Design AI application architectures with guided workflows and generate tailored architecture diagrams to serve as a reference for building applications.",
     icon: Cpu,
     url: "https://solutionbuilder.onrender.com",
     tagline: "Design AI Architectures",
-    bgClass: "from-purple-600 to-indigo-600",
+    bgClass: "from-purple-500 via-pink-500 to-indigo-500",
     iconBgClass: "bg-purple-100 dark:bg-purple-900/30",
     detailedDescription: `The AI Solution Builder enables users to design sophisticated AI application architectures through intuitive guided workflows. 
     This platform streamlines the process of creating tailored architecture diagrams for AI systems.
@@ -499,23 +605,43 @@ const platforms = [
     videoUrl: "https://youtu.be/yTHUoOTOLdE?si=usM2-DCb8hguSJhM", // Placeholder video URL
   },
   {
-    name: "AI Notebook",
+    name: "AI Knowledge Base",
     description:
-      "Collaborative discussion and Q&A platform for uploading documents and saving notes anchored in the Knowledge Base.",
-    icon: BookMarked,
-    url: "https://ai-notebook.onrender.com/",
-    tagline: "Collaborative Notes & Q&A",
-    bgClass: "from-emerald-600 to-teal-600",
+      "Document and share AI learnings, best practices, and reusable assets to build GenAI solutions efficiently and collaboratively.",
+    icon: Database,
+    url: "https://ai-knowledge-base.onrender.com",
+    tagline: "Share AI Knowledge",
+    bgClass: "from-emerald-500 via-teal-500 to-green-500",
     iconBgClass: "bg-emerald-100 dark:bg-emerald-900/30",
-    detailedDescription: `The AI Notebook provides a collaborative environment for discussions and Q&A related to AI projects. 
-    It allows seamless document uploading and integration with the Knowledge Base for contextual reference.
+    detailedDescription: `The AI Knowledge Base serves as a comprehensive repository of AI-related information, allowing teams to document and share valuable learnings. 
+    It offers a structured approach to organizing AI best practices, techniques, and reusable assets.
     
     Key features include:
-    • Real-time collaborative editing
-    • AI-powered document analysis and annotation
-    • Integrated Q&A with context-aware responses
-    • Version history and change tracking
-    • Support for code snippets with syntax highlighting and execution`,
+    • Searchable documentation repository
+    • Categorized AI patterns and solutions
+    • Version-controlled knowledge articles
+    • Integration with popular AI tools and frameworks
+    • Collaborative editing and feedback system`,
+    videoUrl: "https://youtu.be/yTHUoOTOLdE?si=usM2-DCb8hguSJhM", // Placeholder video URL
+  },
+  {
+    name: "AI Notebook Base",
+    description:
+      "Document and share AI learnings, best practices, and reusable assets to build GenAI solutions efficiently and collaboratively.",
+    icon: Database,
+    url: "https://ai-knowledge-base.onrender.com",
+    tagline: "Share AI Knowledge",
+    bgClass: "from-emerald-500 via-teal-500 to-green-500",
+    iconBgClass: "bg-emerald-100 dark:bg-emerald-900/30",
+    detailedDescription: `The AI Knowledge Base serves as a comprehensive repository of AI-related information, allowing teams to document and share valuable learnings. 
+    It offers a structured approach to organizing AI best practices, techniques, and reusable assets.
+    
+    Key features include:
+    • Searchable documentation repository
+    • Categorized AI patterns and solutions
+    • Version-controlled knowledge articles
+    • Integration with popular AI tools and frameworks
+    • Collaborative editing and feedback system`,
     videoUrl: "https://youtu.be/yTHUoOTOLdE?si=usM2-DCb8hguSJhM", // Placeholder video URL
   },
 ];
@@ -559,7 +685,7 @@ function PlatformDetail({
   const isEven = index % 2 === 0;
 
   return (
-    <div id={`platform-${index}`} className="py-16 scroll-mt-16">
+    <div id={`platform-${index}`} className="section-container">
       <div
         className={`flex flex-col ${
           isEven ? "lg:flex-row" : "lg:flex-row-reverse"
@@ -613,7 +739,7 @@ function PlatformDetail({
 // About AI Academy Section Component
 function AboutSection() {
   return (
-    <div id="about" className="py-16 scroll-mt-16">
+    <div id="about" className="section-container">
       <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
         About AI Academy
       </h2>
@@ -682,7 +808,7 @@ function AboutSection() {
 // Team Section Component
 function TeamSection() {
   return (
-    <div id="team" className="py-16 scroll-mt-16">
+    <div id="team" className="section-container">
       <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
         Our Team
       </h2>
@@ -779,11 +905,54 @@ function TeamSection() {
 
 export function WelcomePage() {
   const { isAuthenticated } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [animateContent, setAnimateContent] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [navbarScrolled, setNavbarScrolled] = useState(false);
+
+  // Function to open auth modal with specified mode
+  const openAuthModal = (mode: "login" | "signup") => {
+    setAuthMode(mode);
+    setShowAuthModal(true);
+  };
+
+  // Function to close auth modal
+  const closeAuthModal = () => {
+    setShowAuthModal(false);
+  };
+
+  // Handle navbar scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setNavbarScrolled(true);
+      } else {
+        setNavbarScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: (e.clientX - rect.left) / rect.width,
+      y: (e.clientY - rect.top) / rect.height,
+    });
+  };
 
   useEffect(() => {
+    // Apply theme class to body
+    document.body.classList.remove("light-mode", "dark-mode");
+    document.body.classList.add(theme === "dark" ? "dark-mode" : "light-mode");
+
     // Trigger animations after component mount
     const timer = setTimeout(() => {
       setAnimateContent(true);
@@ -792,11 +961,29 @@ export function WelcomePage() {
     // Add smooth scrolling behavior
     document.documentElement.style.scrollBehavior = "smooth";
 
+    // Disable custom cursor on form elements
+    const disableCustomCursor = () => {
+      // Add a class to disable custom cursor effects on all form elements
+      const formElements = document.querySelectorAll(
+        'input, textarea, select, button[type="submit"], button[type="button"], label'
+      );
+
+      formElements.forEach((el) => {
+        el.classList.add("default-cursor");
+        // Cast element to HTMLElement to access style property
+        (el as HTMLElement).style.pointerEvents = "auto";
+        (el as HTMLElement).style.cursor = "auto";
+      });
+    };
+
+    // Call the function after a small delay to ensure the form is mounted
+    setTimeout(disableCustomCursor, 500);
+
     return () => {
       clearTimeout(timer);
       document.documentElement.style.scrollBehavior = "auto";
     };
-  }, []);
+  }, [theme]);
 
   // Show dashboard button for authenticated users
   const goToDashboard = () => {
@@ -804,175 +991,154 @@ export function WelcomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
+    <div className="welcome-page">
       <AnimatedBackground />
 
-      <div className="relative z-10 min-h-screen">
-        <div className="flex flex-col lg:flex-row">
+      {/* Navbar */}
+      <nav className={`navbar ${navbarScrolled ? "scrolled" : ""}`}>
+        <div className="navbar-brand">
+          <div className="animated-logo">
+            <div className="logo-glow"></div>
+            <div className="logo-bg">
+              <Brain className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <span className="text-lg font-bold bg-gradient-to-r from-purple-300 to-cyan-300 text-transparent bg-clip-text">
+            AI Academy
+          </span>
+        </div>
+        <div className="navbar-menu">
+          <div className="navbar-links">
+            <a href="#platforms" className="nav-link">
+              AI Platforms
+            </a>
+            <a href="#about" className="nav-link">
+              About
+            </a>
+            <a href="#team" className="nav-link">
+              Team
+            </a>
+          </div>
+          <div className="navbar-actions">
+            {!isAuthenticated ? (
+              <button
+                className="auth-button"
+                onClick={() => openAuthModal("login")}
+              >
+                <Mail className="h-4 w-4" />
+                <span className="auth-button-text">Sign In</span>
+              </button>
+            ) : (
+              <button className="auth-button" onClick={goToDashboard}>
+                <ArrowRight className="h-4 w-4" />
+                <span className="auth-button-text">Dashboard</span>
+              </button>
+            )}
+            <button className="theme-toggle" onClick={toggleTheme}>
+              {theme === "light" ? (
+                <Moon className="h-4 w-4" />
+              ) : (
+                <Sun className="h-4 w-4" />
+              )}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Auth Modal */}
+      <div
+        className={`auth-modal-overlay ${showAuthModal ? "active" : ""}`}
+        onClick={(e) => {
+          // Close modal when clicking on overlay but not on the modal itself
+          if (e.target === e.currentTarget) closeAuthModal();
+        }}
+      >
+        <div className="auth-modal">
+          <button
+            className="auth-modal-close"
+            onClick={closeAuthModal}
+            aria-label="Close modal"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          <div className="p-8">
+            <AuthForm authMode={authMode} setAuthMode={setAuthMode} />
+          </div>
+        </div>
+      </div>
+
+      <div className="welcome-content" onMouseMove={handleMouseMove}>
+        <div className="welcome-layout">
           {/* Content Section (Left Side) */}
-          <div className="w-full lg:w-3/5 flex flex-col justify-center px-4 sm:px-6 lg:px-8 py-12 lg:py-6">
-            <div className="max-w-2xl mx-auto lg:mx-0 lg:max-w-none lg:pr-12">
+          <div className="content-section">
+            <div className="content-container">
               {/* Header */}
               <div
-                className={`transition-all duration-1000 transform ${
-                  animateContent
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-10 opacity-0"
-                }`}
+                className={`${
+                  animateContent ? "fade-in-up" : "fade-out-down"
+                } mt-2`}
               >
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center">
-                    <Brain className="h-8 w-8 sm:h-10 sm:w-10 text-purple-600 mr-2 sm:mr-3" />
-                    <span className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
-                      AI Academy
-                    </span>
-                  </div>
-                  <div className="flex space-x-2 sm:space-x-4">
-                    <a
-                      href="#platforms"
-                      className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                    >
-                      AI Platforms
-                    </a>
-                    <a
-                      href="#about"
-                      className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                    >
-                      About
-                    </a>
-                    <a
-                      href="#team"
-                      className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                    >
-                      Team
-                    </a>
-                  </div>
+                <div className="mb-6">
+                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-purple-700 via-purple-500 to-cyan-600 dark:from-white dark:via-purple-200 dark:to-cyan-200 bg-clip-text text-transparent mb-6">
+                    AI Ecosystem
+                  </h1>
+                  <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+                    Explore our integrated AI platforms designed to accelerate
+                    your learning and development
+                  </p>
                 </div>
               </div>
 
               {/* Connected Platforms Section - Teaser Cards */}
-              <div id="platforms" className="mb-16 scroll-mt-16">
-                <div
-                  className={`transition-all duration-1000 transform ${
-                    animateContent
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-10 opacity-0"
-                  }`}
-                >
-                  <div className="mb-6">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                      AI Academy Ecosystem
-                    </h2>
-                    <p className="text-lg text-gray-600 dark:text-gray-300">
-                      Explore our integrated AI platforms designed to accelerate
-                      your learning and development
-                    </p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+              <div id="platforms" className="mb-16 section-container">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
                   {platforms.map((platform, index) => (
                     <div
                       key={platform.name}
-                      className={`transition-all duration-1000 transform ${
-                        animateContent
-                          ? "translate-y-0 opacity-100"
-                          : "translate-y-10 opacity-0"
+                      className={`${
+                        animateContent ? "fade-in-up" : "fade-out-down"
                       }`}
-                      style={{ transitionDelay: `${200 + index * 200}ms` }}
+                      style={{
+                        transitionDelay: `${200 + index * 200}ms`,
+                        transform: mousePosition.x
+                          ? `translateY(${
+                              (mousePosition.y - 0.5) * -10
+                            }px) translateX(${(mousePosition.x - 0.5) * -10}px)`
+                          : "none",
+                        transition: "transform 0.3s ease-out",
+                      }}
                     >
                       <PlatformCard platform={platform} />
                     </div>
                   ))}
                 </div>
-              </div>
-            </div>
-          </div>
 
-          {/* Login Form Section (Right Side) */}
-          <div
-            id="signup"
-            className="w-full lg:w-2/5 bg-gray-100 dark:bg-gray-800/50 backdrop-blur-lg flex items-center justify-center p-6 lg:p-12 sticky top-0 lg:h-screen"
-          >
-            <div
-              className={`w-full transition-all duration-1000 transform ${
-                animateContent
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-10 opacity-0"
-              }`}
-            >
-              {!isAuthenticated ? (
-                <AuthForm authMode={authMode} setAuthMode={setAuthMode} />
-              ) : (
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 w-full max-w-md mx-auto transform transition-all duration-500 hover:shadow-2xl">
-                  <div className="flex flex-col items-center justify-center text-center">
-                    <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center mb-6 animate-pulse-slow">
-                      <Brain className="h-10 w-10 text-white" />
+                {/* Call to Action */}
+                <div className="text-center mt-16">
+                  <div
+                    className="inline-flex items-center space-x-4 px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-full text-white font-medium hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer"
+                    onClick={() => openAuthModal("signup")}
+                  >
+                    <span className="text-lg">Join the AI Revolution</span>
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                      <ArrowRight className="w-4 h-4" />
                     </div>
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-                      Welcome Back!
-                    </h2>
-                    <p className="text-gray-600 dark:text-gray-400 mb-6">
-                      You're already signed in to AI Academy. Continue your
-                      learning journey from where you left off!
-                    </p>
-
-                    {/* Show platforms after login too */}
-                    <div className="mb-6 w-full">
-                      <div className="text-sm font-medium text-gray-900 dark:text-white mb-2">
-                        Access AI Academy Platforms
-                      </div>
-                      <div className="grid grid-cols-1 gap-3">
-                        {platforms.map((platform) => (
-                          <a
-                            key={platform.name}
-                            href={platform.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`flex items-center p-3 rounded-lg bg-gradient-to-r ${platform.bgClass} hover:opacity-90 transition-all`}
-                          >
-                            <div
-                              className={`w-8 h-8 rounded-md ${platform.iconBgClass} flex items-center justify-center mr-3`}
-                            >
-                              <platform.icon className="h-4 w-4 text-white" />
-                            </div>
-                            <div className="flex-1">
-                              <div className="text-sm font-medium text-white">
-                                {platform.name}
-                              </div>
-                              <div className="text-xs text-white/80">
-                                {platform.tagline}
-                              </div>
-                            </div>
-                            <ExternalLink className="h-4 w-4 text-white/80" />
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="mb-6 w-full bg-gray-100 dark:bg-gray-700 rounded-lg p-4 flex items-center">
-                      <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mr-4">
-                        <Check className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-                      </div>
-                      <div className="text-left">
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">
-                          Last Course
-                        </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          AI Fundamentals - 60% Complete
-                        </p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={goToDashboard}
-                      className="w-full px-8 py-3 rounded-lg font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 shadow-lg transform transition-all duration-300 hover:-translate-y-1 flex items-center justify-center"
-                    >
-                      Continue Learning
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </button>
                   </div>
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
@@ -1004,17 +1170,17 @@ export function WelcomePage() {
           <TeamSection />
         </div>
 
-        <footer className="bg-gray-100 dark:bg-gray-800 py-12 border-t border-gray-200 dark:border-gray-700">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <footer className="footer bg-white dark:bg-gray-800/50 backdrop-blur-sm">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div className="flex flex-col md:flex-row justify-between">
               <div className="mb-8 md:mb-0">
                 <div className="flex items-center mb-4">
-                  <Brain className="h-8 w-8 text-purple-600 mr-2" />
+                  <Brain className="h-8 w-8 text-purple-600 dark:text-purple-400 mr-2" />
                   <span className="text-xl font-bold text-gray-900 dark:text-white">
                     AI Academy
                   </span>
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 max-w-md">
+                <p className="text-gray-600 dark:text-gray-300 max-w-md">
                   Empowering the next generation of AI innovators with
                   cutting-edge education and tools.
                 </p>
@@ -1030,7 +1196,7 @@ export function WelcomePage() {
                       <li key={platform.name}>
                         <a
                           href={platform.url}
-                          className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400"
+                          className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200"
                         >
                           {platform.name}
                         </a>
@@ -1047,7 +1213,7 @@ export function WelcomePage() {
                       <li key={item}>
                         <a
                           href={`#${item.toLowerCase()}`}
-                          className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400"
+                          className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200"
                         >
                           {item}
                         </a>
@@ -1065,7 +1231,7 @@ export function WelcomePage() {
                         <li key={item}>
                           <a
                             href="#"
-                            className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400"
+                            className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200"
                           >
                             {item}
                           </a>
