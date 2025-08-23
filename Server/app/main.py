@@ -25,8 +25,8 @@ except (ImportError, AssertionError):
     print("Install it using: pip install jinja2", file=sys.stderr)
     jinja2_available = False
 
-from .db import init_db
-from .routes import auth, users
+# from .db import init_db
+# from .routes import auth, users
 
 app = FastAPI(
     title="AI Academy",
@@ -81,14 +81,14 @@ def read_index(request: Request):
 
 
 # API routes
-app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
-app.include_router(users.router, prefix="/api/users", tags=["users"])
+# app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
+# app.include_router(users.router, prefix="/api/users", tags=["users"])
 
 
 @app.on_event("startup")
 def startup_event():
     """Initialize database on startup."""
-    init_db.init_db()
+    # init_db.init_db()
 
 
 if __name__ == "__main__":

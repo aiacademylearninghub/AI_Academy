@@ -661,14 +661,14 @@ const teamMembers = [
     imageUrl: "",
   },
   {
-    name: "Vijay",
-    role: "Frontend Developer",
+    name: "Lohith",
+    role: "AI Developer",
     description: "",
     imageUrl: "",
   },
   {
     name: "Suvardhan DIleep",
-    role: "AI Ethics Specialist",
+    role: "AI Developer",
     description: "",
     imageUrl: "",
   },
