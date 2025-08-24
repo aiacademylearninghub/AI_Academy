@@ -1,2 +1,3 @@
-node_modules
-.venv
+Client/node_modules
+Server/.venv
+Server/.env
