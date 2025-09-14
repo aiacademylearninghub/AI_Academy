@@ -1,0 +1,199 @@
+{
+    "categories": [
+        {
+            "id": "ai-hub",
+            "name": "AI HUB",
+            "description": "Comprehensive collection of AI resources and tutorials",
+            "courses": [
+                {
+                    "id": 1,
+                    "title": "Introduction to Machine Learning",
+                    "description": "This is a sample course covering the basics of Machine Learning.",
+                    "youtubeUrl": "https://www.youtube.com/embed/yTHUoOTOLdE"
+                },
+                {
+                    "id": 2,
+                    "title": "Neural Networks Explained",
+                    "description": "A deep dive into neural networks and how they work.",
+                    "youtubeUrl": "https://www.youtube.com/embed/aircAruvnKk"
+                }
+            ],
+            "subcategories": [
+                {
+                    "id": "agents",
+                    "name": "Agents",
+                    "courses": [
+                        {
+                            "id": 3,
+                            "title": "Introduction to AI Agents",
+                            "description": "Learn about the fundamentals of AI agents and their applications.",
+                            "youtubeUrl": "https://www.youtube.com/embed/GXi_cIQCIqw"
+                        },
+                        {
+                            "id": 4,
+                            "title": "Building Autonomous Agents",
+                            "description": "Step-by-step guide to building autonomous AI agents.",
+                            "youtubeUrl": "https://www.youtube.com/embed/zjkBMFhNj_g"
+                        }
+                    ]
+                },
+                {
+                    "id": "fine-tuning",
+                    "name": "Fine Tuning",
+                    "courses": [
+                        {
+                            "id": 5,
+                            "title": "LLM Fine-Tuning Basics",
+                            "description": "Understanding the basics of fine-tuning language models.",
+                            "youtubeUrl": "https://www.youtube.com/embed/XCuCoSKQ6oA"
+                        },
+                        {
+                            "id": 6,
+                            "title": "Advanced Fine-Tuning Techniques",
+                            "description": "Advanced techniques for optimizing AI model performance.",
+                            "youtubeUrl": "https://www.youtube.com/embed/fHidYBXxwB8"
+                        }
+                    ]
+                },
+                {
+                    "id": "evaluation",
+                    "name": "Evaluation",
+                    "courses": [
+                        {
+                            "id": 7,
+                            "title": "Evaluating AI Models",
+                            "description": "Frameworks and methodologies for evaluating AI models.",
+                            "youtubeUrl": "https://www.youtube.com/embed/QH2-TGUlwu4"
+                        }
+                    ]
+                },
+                {
+                    "id": "tracking",
+                    "name": "Tracking",
+                    "courses": [
+                        {
+                            "id": 8,
+                            "title": "Model Tracking Best Practices",
+                            "description": "Best practices for tracking AI model performance and experiments.",
+                            "youtubeUrl": "https://www.youtube.com/embed/Mh-xQYOzJ8Q"
+                        }
+                    ]
+                },
+                {
+                    "id": "nlp",
+                    "name": "Natural Language Processing",
+                    "courses": [
+                        {
+                            "id": 9,
+                            "title": "Advanced NLP Techniques",
+                            "description": "Advanced techniques for natural language processing applications.",
+                            "youtubeUrl": "https://www.youtube.com/embed/4jl8Lk4Gjm8"
+                        },
+                        {
+                            "id": 10,
+                            "title": "Building Chatbots",
+                            "description": "Learn how to build intelligent chatbots using modern NLP techniques.",
+                            "youtubeUrl": "https://www.youtube.com/embed/UvS-S34BM5I"
+                        }
+                    ]
+                },
+                {
+                    "id": "computer-vision",
+                    "name": "Computer Vision",
+                    "courses": [
+                        {
+                            "id": 11,
+                            "title": "Image Recognition with CNNs",
+                            "description": "Deep dive into Convolutional Neural Networks for image recognition.",
+                            "youtubeUrl": "https://www.youtube.com/embed/FmpDIaiMIeA"
+                        },
+                        {
+                            "id": 12,
+                            "title": "Object Detection Systems",
+                            "description": "Building and deploying real-time object detection systems.",
+                            "youtubeUrl": "https://www.youtube.com/embed/4eIBisqx9_g"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "azure-hub",
+            "name": "Azure HUB",
+            "description": "Everything you need to know about Azure cloud services",
+            "courses": [
+                {
+                    "id": 13,
+                    "title": "Azure Fundamentals",
+                    "description": "Introduction to Microsoft Azure cloud services and platform.",
+                    "youtubeUrl": "https://www.youtube.com/embed/NKEFWyqJ5XA"
+                },
+                {
+                    "id": 14,
+                    "title": "Azure AI Services",
+                    "description": "Comprehensive overview of AI services available on Azure.",
+                    "youtubeUrl": "https://www.youtube.com/embed/lk4vxmILDcA"
+                }
+            ],
+            "subcategories": [
+                {
+                    "id": "azure-data",
+                    "name": "Azure Data Services",
+                    "courses": [
+                        {
+                            "id": 15,
+                            "title": "Azure Synapse Analytics",
+                            "description": "Learn about Azure's integrated analytics service.",
+                            "youtubeUrl": "https://www.youtube.com/embed/VA6aIbHaMi4"
+                        },
+                        {
+                            "id": 16,
+                            "title": "Azure Cosmos DB",
+                            "description": "Working with Microsoft's globally distributed, multi-model database service.",
+                            "youtubeUrl": "https://www.youtube.com/embed/R_Fi59j6BMo"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "devops-hub",
+            "name": "DevOps HUB",
+            "description": "Modern DevOps practices and cloud deployment strategies",
+            "courses": [
+                {
+                    "id": 17,
+                    "title": "CI/CD Pipeline Implementation",
+                    "description": "Learn how to implement continuous integration and deployment pipelines.",
+                    "youtubeUrl": "https://www.youtube.com/embed/R8_veQiYBjI"
+                },
+                {
+                    "id": 18,
+                    "title": "Infrastructure as Code",
+                    "description": "Best practices for managing infrastructure using code.",
+                    "youtubeUrl": "https://www.youtube.com/embed/POPP2WTJ8es"
+                }
+            ],
+            "subcategories": [
+                {
+                    "id": "containerization",
+                    "name": "Containerization",
+                    "courses": [
+                        {
+                            "id": 19,
+                            "title": "Docker Fundamentals",
+                            "description": "Everything you need to know about Docker containers.",
+                            "youtubeUrl": "https://www.youtube.com/embed/fqMOX6JJhGo"
+                        },
+                        {
+                            "id": 20,
+                            "title": "Kubernetes in Practice",
+                            "description": "Practical guide to container orchestration with Kubernetes.",
+                            "youtubeUrl": "https://www.youtube.com/embed/X48VuDVv0do"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+Client/node_modules
+Server/.venv
+Server/.env
+Server/gcp.json
+Server/ai-academy-firebase.json
+.firebase/logs/
+Server/gcp.json
+Server/ai-academy-firebase.json
+.firebase/logs/
