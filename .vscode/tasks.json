@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start Client Dev Server",
+			"type": "shell",
+			"command": "cd \"e:\\Github\\AI\\AI_Academy\\Client\" && npm run dev",
+			"group": "build",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Start Python Server",
+			"type": "shell",
+			"command": "cd \"e:\\Github\\AI\\AI_Academy\\Server\" && .venv\\Scripts\\activate.bat && poetry run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000",
+			"group": "build",
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}
