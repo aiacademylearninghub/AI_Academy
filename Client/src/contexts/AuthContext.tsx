@@ -1,11 +1,15 @@
 import React, { createContext, useEffect, useState, useCallback } from "react";
 import { AuthState } from "../types/auth";
+import { auth, signInWithGoogle, db } from "../utils/firebase";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { User as FirebaseUser } from "firebase/auth";
 
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<void>;
   signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   refreshSession: () => Promise<boolean>;
+  signInWithGooglePopup: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -37,6 +41,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isLoading: true,
     error: null,
   });
+
+  // Helper function to save user to Firestore
+  const saveUserToFirestore = async (user: FirebaseUser) => {
+    try {
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      // If the user doesn't exist in Firestore yet, add them
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName || "Anonymous User",
+          photoURL:
+            user.photoURL ||
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(
+              user.displayName || "User"
+            )}&background=6366F1&color=fff`,
+          createdAt: new Date(),
+        });
+      }
+
+      return userSnap.data();
+    } catch (error) {
+      console.error("Error saving user to Firestore:", error);
+      throw error;
+    }
+  };
 
   // Function to generate a token - in a real app, this would come from a backend
   const generateToken = useCallback(() => {
@@ -264,9 +296,73 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // Google Sign In function
+  const signInWithGooglePopup = async () => {
+    setState({
+      ...state,
+      isLoading: true,
+      error: null,
+    });
+
+    try {
+      const result = await signInWithGoogle();
+      const user = result.user;
+
+      // Save user to Firestore
+      await saveUserToFirestore(user);
+
+      // Create formatted user object for our app
+      const formattedUser = {
+        id: user.uid,
+        email: user.email || "",
+        name: user.displayName || "Anonymous User",
+        profileImage:
+          user.photoURL ||
+          `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            user.displayName || "User"
+          )}&background=6366F1&color=fff`,
+      };
+
+      // Generate a token (using Firebase's ID token)
+      const token = await user.getIdToken();
+      const tokenExpiry = Date.now() + TOKEN_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+
+      // Store session data
+      const sessionData = {
+        user: formattedUser,
+        token,
+        tokenExpiry,
+      };
+
+      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(sessionData));
+
+      setState({
+        user: formattedUser,
+        token,
+        tokenExpiry,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+      });
+    } catch (error) {
+      console.error("Google sign in error:", error);
+      setState({
+        ...state,
+        isLoading: false,
+        error: error instanceof Error ? error.message : "Google sign in failed",
+      });
+    }
+  };
+
   // Logout function
   const logout = () => {
+    // Sign out from Firebase
+    auth.signOut().catch(console.error);
+
+    // Clear local storage
     localStorage.removeItem(SESSION_STORAGE_KEY);
+
+    // Update state
     setState({
       user: null,
       token: null,
@@ -283,6 +379,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signup,
     logout,
     refreshSession,
+    signInWithGooglePopup,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

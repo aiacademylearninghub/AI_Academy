@@ -25,8 +25,11 @@ except (ImportError, AssertionError):
     print("Install it using: pip install jinja2", file=sys.stderr)
     jinja2_available = False
 
-# from .db import init_db
-# from .routes import auth, users
+# Import database initialization
+from app.db import init_db
+
+# Import route modules
+from app.routes import api, settings
 
 app = FastAPI(
     title="AI Academy",
@@ -35,9 +38,14 @@ app = FastAPI(
 )
 
 # Middleware
+# Get CORS origins from environment or use default
+allowed_origins = os.environ.get(
+    "CORS_ORIGINS", "http://localhost:5173,http://localhost:3000"
+).split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -81,21 +89,22 @@ def read_index(request: Request):
 
 
 # API routes
-# app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
-# app.include_router(users.router, prefix="/api/users", tags=["users"])
+app.include_router(api.router, prefix="/api", tags=["api"])
+app.include_router(settings.router, prefix="/api/settings", tags=["settings"])
 
 
 @app.on_event("startup")
 def startup_event():
     """Initialize database on startup."""
-    # init_db.init_db()
+    init_db.init_db()
 
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
     uvicorn.run(
         "app.main:app",
         host="0.0.0.0",
-        port=8000,
+        port=port,
         reload=True,
         workers=1,
     )
