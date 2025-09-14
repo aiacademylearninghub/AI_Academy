@@ -18,4 +18,10 @@ RUN poetry install --no-interaction --no-root
 # Copy application code
 COPY . .
 
-CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT}
+# Set default port with fallback to 8080 if not provided
+ENV PORT=8080
+
+# Expose the port
+EXPOSE $PORT
+# Use shell form of CMD to ensure environment variable is evaluated
+CMD uvicorn app.main:app --host 0.0.0.0 --port $PORT

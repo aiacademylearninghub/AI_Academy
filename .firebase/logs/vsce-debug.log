@@ -93,3 +93,48 @@ I0911 10:59:43.634031   20456 load.go:109] Finished reloading
 [debug] [2025-09-11T09:59:44.094Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
 [info] [Firebase Plugin] Stopping Data Connect toolkit
 [warn] !  Data Connect Emulator has exited upon receiving signal: SIGINT 
+[debug] [2025-09-14T13:00:34.553Z] [Firebase Plugin] Activating Firebase extension.
+[debug] [2025-09-14T13:00:39.263Z] [Firebase Plugin] requireAuthWrapper
+[debug] [2025-09-14T13:00:39.281Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-14T13:00:39.282Z] > authorizing via signed-in user (aiacademylearninghub@gmail.com)
+[debug] [2025-09-14T13:00:39.286Z] Checked if tokens are valid: false, expires at: 1757854532687
+[debug] [2025-09-14T13:00:39.287Z] Checked if tokens are valid: false, expires at: 1757854532687
+[debug] [2025-09-14T13:00:39.288Z] > refreshing access token with scopes: []
+[debug] [2025-09-14T13:00:39.290Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-09-14T13:00:39.290Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-09-14T13:00:39.317Z] [Firebase Plugin] VSCode notification server listening on port 40001
+[info] [Firebase Plugin] Starting Data Connect toolkit (version 2.12.0) on port 50001
+[debug] [2025-09-14T13:00:40.099Z] I0914 14:00:40.067914   30084 control.go:94] [/emulator/aiacademy 201d] UpdateResources(): done
+Schema: sources: schema\schema.gql [1992B] 
+Connector "example": sources: example\mutations.gql [1243B] example\queries.gql [1801B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0914 14:00:40.067914   30084 control.go:94] [/emulator/aiacademy 201d] UpdateResources(): done\nSchema: sources: schema\\schema.gql [1992B] \nConnector \"example\": sources: example\\mutations.gql [1243B] example\\queries.gql [1801B] \n"}}
+[debug] [2025-09-14T13:00:40.100Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2025-09-14T13:00:40.100Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2025-09-14T13:00:40.101Z] Starting Data Connect Emulator with command {"binary":"C:\\Users\\sudee\\.cache\\firebase\\emulators\\dataconnect-emulator-2.12.0.exe","args":["--logtostderr","-v=2","dev","--listen=localhost:50001","--config_dir=d:\\AI\\AI-startup\\AI_Academy\\dataconnect","--enable_output_schema_extensions=true","--enable_output_generated_sdk=true"],"optionalArgs":["listen","config_dir","enable_output_schema_extensions","enable_output_generated_sdk"],"joinArgs":true,"shell":false,"port":9399} {"metadata":{"emulator":{"name":"dataconnect"},"message":"Starting Data Connect Emulator with command {\"binary\":\"C:\\\\Users\\\\sudee\\\\.cache\\\\firebase\\\\emulators\\\\dataconnect-emulator-2.12.0.exe\",\"args\":[\"--logtostderr\",\"-v=2\",\"dev\",\"--listen=localhost:50001\",\"--config_dir=d:\\\\AI\\\\AI-startup\\\\AI_Academy\\\\dataconnect\",\"--enable_output_schema_extensions=true\",\"--enable_output_generated_sdk=true\"],\"optionalArgs\":[\"listen\",\"config_dir\",\"enable_output_schema_extensions\",\"enable_output_generated_sdk\"],\"joinArgs\":true,\"shell\":false,\"port\":9399}"}}
+[info] i  dataconnect: Data Connect Emulator logging to dataconnect-debug.log {"metadata":{"emulator":{"name":"dataconnect"},"message":"Data Connect Emulator logging to \u001b[1mdataconnect-debug.log\u001b[22m"}}
+[debug] [2025-09-14T13:00:40.184Z] I0914 14:00:40.144764   30192 load.go:31] Reloading schema and connectors...
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0914 14:00:40.144764   30192 load.go:31] Reloading schema and connectors...\n"}}
+[debug] [2025-09-14T13:00:40.219Z] I0914 14:00:40.219579   30192 control.go:94] [/emulator/aiacademy 828a] UpdateResources(): done
+Schema: sources: schema\schema.gql [1992B] 
+Connector "example": sources: example\mutations.gql [1243B] example\queries.gql [1801B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0914 14:00:40.219579   30192 control.go:94] [/emulator/aiacademy 828a] UpdateResources(): done\nSchema: sources: schema\\schema.gql [1992B] \nConnector \"example\": sources: example\\mutations.gql [1243B] example\\queries.gql [1801B] \n"}}
+[debug] [2025-09-14T13:00:40.277Z] I0914 14:00:40.275526   30192 codegen.go:82] [connector "example" javascriptSdk] Generating sources into "d:\\AI\\AI-startup\\AI_Academy\\Client\\src\\dataconnect-generated"
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0914 14:00:40.275526   30192 codegen.go:82] [connector \"example\" javascriptSdk] Generating sources into \"d:\\\\AI\\\\AI-startup\\\\AI_Academy\\\\Client\\\\src\\\\dataconnect-generated\"\n"}}
+[debug] [2025-09-14T13:00:40.279Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-09-14T13:00:40.279Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-09-14T13:00:40.334Z] [Firebase Plugin] User found:  aiacademylearninghub@gmail.com
+[info] [Firebase Plugin] (Core:Project) New user detected, fetching projects
+[debug] [2025-09-14T13:00:40.337Z] Checked if tokens are valid: true, expires at: 1757858439280
+[debug] [2025-09-14T13:00:40.339Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2025-09-14T13:00:40.402Z] I0914 14:00:40.300336   30192 collector.go:107] schema extensions wrote into "d:\\AI\\AI-startup\\AI_Academy\\dataconnect\\.dataconnect\\schema"
+Generated sources: main\implicit.gql [1261B] main\input.gql [28173B] prelude.gql [73251B] main\relation.gql [13742B] main\query.gql [5099B] main\mutation.gql [13679B] 
+I0914 14:00:40.311859   30192 collector.go:107] connector "example" javascriptSdk wrote into "d:\\AI\\AI-startup\\AI_Academy\\Client\\src\\dataconnect-generated"
+Generated sources: esm\package.json [17B] index.cjs.js [4052B] package.json [863B] README.md [40931B] react\index.d.ts [3961B] react\esm\index.esm.js [3269B] react\README.md [48299B] esm\index.esm.js [3562B] react\package.json [460B] react\esm\package.json [17B] react\index.cjs.js [3439B] index.d.ts [8025B] 
+I0914 14:00:40.369123   30192 installsdk.go:55] Package @dataconnect/generated is already installed. Skipping installation
+I0914 14:00:40.369641   30192 load.go:109] Finished reloading
+I0914 14:00:40.395779   30192 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0914 14:00:40.300336   30192 collector.go:107] schema extensions wrote into \"d:\\\\AI\\\\AI-startup\\\\AI_Academy\\\\dataconnect\\\\.dataconnect\\\\schema\"\nGenerated sources: main\\implicit.gql [1261B] main\\input.gql [28173B] prelude.gql [73251B] main\\relation.gql [13742B] main\\query.gql [5099B] main\\mutation.gql [13679B] \nI0914 14:00:40.311859   30192 collector.go:107] connector \"example\" javascriptSdk wrote into \"d:\\\\AI\\\\AI-startup\\\\AI_Academy\\\\Client\\\\src\\\\dataconnect-generated\"\nGenerated sources: esm\\package.json [17B] index.cjs.js [4052B] package.json [863B] README.md [40931B] react\\index.d.ts [3961B] react\\esm\\index.esm.js [3269B] react\\README.md [48299B] esm\\index.esm.js [3562B] react\\package.json [460B] react\\esm\\package.json [17B] react\\index.cjs.js [3439B] index.d.ts [8025B] \nI0914 14:00:40.369123   30192 installsdk.go:55] Package @dataconnect/generated is already installed. Skipping installation\nI0914 14:00:40.369641   30192 load.go:109] Finished reloading\nI0914 14:00:40.395779   30192 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001\n"}}
+[debug] [2025-09-14T13:00:40.483Z] I0914 14:00:40.483559   30192 engine.go:171] [/emulator/aiacademy 828a] ExecuteGraphqlRead IntrospectionQuery: succeeded. 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0914 14:00:40.483559   30192 engine.go:171] [/emulator/aiacademy 828a] ExecuteGraphqlRead IntrospectionQuery: succeeded. \n"}}
+[debug] [2025-09-14T13:00:59.670Z] *** [apiv2] error from fetch(https://firebase.googleapis.com/v1beta1/projects?pageSize=1000, {"headers":{},"method":"GET","signal":{}}): FetchError: request to https://firebase.googleapis.com/v1beta1/projects?pageSize=1000 failed, reason: read ECONNRESET
+[debug] [2025-09-14T13:00:59.671Z] Failed to make request to https://firebase.googleapis.com/v1beta1/projects?pageSize=1000
